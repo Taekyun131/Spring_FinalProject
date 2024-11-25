@@ -16,10 +16,10 @@ public class NavbarController {
         return "reservation";
     }
 
-    @GetMapping("/board")
-    public String noticeBoard() {
-        return "noticeBoard";
-    }
+//    @GetMapping("/board")
+//    public String noticeBoard() {
+//        return "noticeBoard";
+//    }
 
     @GetMapping("/vaccine")
     public String vaccinationInfo() {

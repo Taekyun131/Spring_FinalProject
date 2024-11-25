@@ -1,24 +1,23 @@
 package com.asklepios.hospitalreservation_asklepios.VO;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+@Data
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 public class UserVO {
 
-    @NotBlank(message = "아이디를 입력해주세요.")
     private String user_id;
-
-    @NotBlank(message = "비밀번호를 입력해주세요.")
     private String user_password;
-
-    @Builder
-    public UserVO(String user_id, String user_password) {
-        this.user_id = user_id;
-        this.user_password = user_password;
-    }
-
+    private String user_name;
+    private String user_name_eng;
+    private String user_register_number;
+    private String user_tel;
+    private String user_addr;
+    private String user_email;
+    private String user_authority;
+    private String user_info_agreement;
+    private String user_image;
 }

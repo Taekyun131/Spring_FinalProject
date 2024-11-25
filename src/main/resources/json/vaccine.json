@@ -1,0 +1,35 @@
+{
+  "name": "json",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jungon-Jo/HospitalReservation_Asklepios.git"
+  },
+  "private": true
+}
+}
+  "vaccines": [
+    {
+      "name": "A형 간염",
+      "description": "A형 간염 백신에 대한 정보입니다.",
+      "availability": "무료 접종 영아 4~7개월 동안"
+    },
+    {
+      "name": "B형 간염",
+      "description": "B형 간염 백신에 대한 정보입니다.",
+      "availability": "무료 접종"
+    }
+  ]
+}
+    {
+      "name": "결핵(BCG,피내용)",
+      "description": "결핵(BCG,피내용) 백신에 대한 정보입니다",
+      "availability": "무료 접종"
+
+
+    }

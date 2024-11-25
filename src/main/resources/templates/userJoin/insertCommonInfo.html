@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>InsertCommonInfo</title>
+</head>
+<style>
+    .insertContent {
+        width: 150px;
+        height: 30px;
+    }
+    .insertValue {
+        width: 200px;
+        height: 30px;
+    }
+    table tr td input {
+        width: 200px;
+    }
+    table tr td {
+        border: 1px black solid
+    }
+</style>
+<body>
+    <form action="/asklepios/commoninfo" method="post">
+        <table>
+            <tr>
+                <td class="insertContent">
+                    <label for="user_id">아이디</label>
+                </td>
+                <td class="insertValue">
+                    <input type="text"  id="user_id" name="user_id" placeholder="사용하실 아이디를 입력하시오.">
+                </td>
+            <tr>
+                <td class="insertContent">
+                    <label for="user_password">비밀번호</label>
+                </td>
+                <td class="insertValue">
+                    <input type="password" id="user_password" name="user_password" placeholder="사용하실 비밀번호를 입력하시오.">
+                </td>
+            </tr>
+            <tr>
+                <td class="insertContent">
+                    <label for="user_passwordVerify">비밀번호 확인</label>
+                </td>
+                <td class="insertValue">
+                    <input type="password" id="user_passwordVerify" placeholder="사용하실 비밀번호를 입력하시오.">
+                </td>
+            </tr>
+            <tr>
+                <td class="insertContent">
+                    <label for="user_name">사용자 이름</label>
+                </td>
+                <td class="insertValue">
+                    <input type="text" id="user_name" name="user_name" placeholder="사용자 이름을 입력하시오.">
+                </td>
+            </tr>
+            <tr>
+                <td class="insertContent">
+                    <label for="user_name_eng">사용자 이름(영문)</label>
+                </td>
+                <td class="insertValue">
+                    <input type="text" id="user_name_eng" name="user_name_eng" placeholder="사용자 이름을 영어로 입력하시오.">
+                </td>
+            </tr>
+            <tr>
+                <td class="insertContent">
+                    <label for="user_register_first_number">주민등록번호</label>
+                </td>
+                <td class="insertValue">
+                    <input type="text" id="user_register_first_number" title="주민등록번호 앞자리" name="user_register_first_number" placeholder="주민등록 앞자리" style="width: 38%;">
+                    <span>-</span>
+                    <input type="password" id="user_register_second_number" title="주민등록번호 뒷자리" name="user_register_second_number" placeholder="주민등록 뒷자리" style="width: 45%;">
+                </td>
+            </tr>
+            <tr>
+                <td class="insertContent">
+                    <label for="user_tel_first_number">전화번호</label>
+                </td>
+                <td class="insertValue">
+                    <input type="text" id="user_tel_first_number" name="user_tel_first_number" placeholder="010" style="width: 30px">
+                    <span>-</span>
+                    <input type="text" id="user_tel_second_number" name="user_tel_second_number" placeholder="0000" style="width: 40px">
+                    <span>-</span>
+                    <input type="text" id="user_tel_third_number" name="user_tel_third_number" placeholder="0000" style="width: 40px">
+                </td>
+            </tr>
+            <tr>
+                <td class="insertContent">
+                    <label for="user_passwordVerify">비밀번호 확인</label>
+                </td>
+                <td>
+                    <input type="password" id="user_passwordVerify" placeholder="사용하실 비밀번호를 입력하시오.">
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>

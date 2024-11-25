@@ -1,8 +1,5 @@
 package com.asklepios.hospitalreservation_asklepios.Service;
 
-
-
-
 import com.asklepios.hospitalreservation_asklepios.Repository.IF_BoardMapper;
 import com.asklepios.hospitalreservation_asklepios.VO.BoardVO;
 import com.asklepios.hospitalreservation_asklepios.VO.PageVO;
@@ -18,7 +15,6 @@ public class IM_BoardService implements IF_BoardService{
 
     @Override
     public void addBoard(BoardVO boardVO) {
-
         String category=boardVO.getBoard_category();
         if(category!=null){
             if(category.equals("1")){
@@ -31,7 +27,6 @@ public class IM_BoardService implements IF_BoardService{
                 boardVO.setBoard_category("자유게시판");
             }
         }
-//        System.out.println(boardVO.toString());
         boardMapper.insertOne(boardVO);
     }
 
@@ -55,6 +50,32 @@ public class IM_BoardService implements IF_BoardService{
     @Override
     public int boardCount() {
         return boardMapper.countBoard();
+    }
+
+    @Override
+    public BoardVO modBoard(String no) throws Exception {
+
+        return boardMapper.selectOne(no);
+    }
+
+    @Override
+    public void modBoard(BoardVO boardVO) {
+        String category=boardVO.getBoard_category();
+        if(category!=null){
+            if(category.equals("1")){
+                boardVO.setBoard_category("오늘의 건강");
+            } else if (category.equals("2")) {
+                boardVO.setBoard_category("캠페인");
+            }else if (category.equals("3")) {
+                boardVO.setBoard_category("의료기기");
+            }else if (category.equals("4")) {
+                boardVO.setBoard_category("자유게시판");
+            }
+        }
+//        System.out.println(boardVO.getBoard_sequence());
+//        System.out.println(boardVO.getBoard_content());
+//        System.out.println(boardVO.getBoard_category());
+        boardMapper.updateBoard(boardVO);
     }
 
 

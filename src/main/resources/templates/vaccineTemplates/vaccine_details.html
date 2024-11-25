@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>백신 상세 정보</title>
+  <style>
+    /* 스타일 추가 */
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="title">{{vaccine.name}}</div>
+  <div class="subtitle">{{vaccine.description}}</div>
+
+  <div class="badge">
+    <img src="/static/logo2.jpg" alt="질병 관리청 로고가 들어감">
+    질병관리청 제공
+  </div>
+
+  <div class="vaccine-details">
+    <h3>접종 가능한 병원</h3>
+    <div class="region-buttons">
+      <div>
+        <button onclick="showHospitals('서울')">서울</button>
+        <button onclick="showHospitals('부산')">부산</button>
+        <button onclick="showHospitals('경기도')">경기도</button>
+      </div>
+
+      <div id="hospital_code">
+        <!-- 병원 목록이 동적으로 출력. -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function showHospitals(region) {
+    var hospitals = {{hospitalsByRegion | tojson}};
+    var hospital_code = hospitals[region] || [];
+    var listContainer = document.getElementById('hospital_code');
+    listContainer.innerHTML = '';
+
+    if (hospital_code.length > 0) {
+      hospital_code.forEach(function(hospital) {
+        var div = document.createElement('div');
+        div.textContent = hospital;
+        listContainer.appendChild(div);
+      });
+    } else {
+      listContainer.textContent = '이 지역에 접종 가능한 병원이 없습니다.';
+    }
+  }
+</script>
+<h2>
+    <div id="reset-button"> 유의 사항</div>
+</h2>
+</body>
+</html>
+
+

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>무료 접종 가능 백신</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f1f1f1, #e3e3e3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 1100px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 40px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    .title {
+      font-size: 36px;
+      font-weight: 700;
+      color: #333333;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      color: #666666;
+      margin-bottom: 30px;
+    }
+
+    .badge {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f4f4f4;
+      padding: 15px 25px;
+      border-radius: 5px;
+      font-size: 22px;
+      font-weight: bold;
+      color: #333333;
+      margin-bottom: 20px;
+      width: fit-content;
+      margin: 0 auto;
+    }
+
+    .badge img {
+      width: 30px;
+      height: 20px;
+      margin-right: 10px;
+    }
+
+    .vaccine-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      text-align: left;
+      width: 100%;
+    }
+
+    .box-container {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+
+    .box {
+      width: 48%;
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      background-color: #f9f9f9;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      font-size: 16px;
+      color: #555555;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .box:hover {
+      background-color: #f1f1f1;
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .button {
+      display: block;
+      margin: 30px auto;
+      width: 200px;
+      height: 60px;
+      text-align: center;
+      padding: 15px 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: black;
+      background: linear-gradient(45deg, #f1dd2c, #ffcb00);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .button:hover {
+      background: yellow;
+      transform: scale(1.05);
+    }
+
+    /* 모달 스타일 */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgb(0,0,0);
+      background-color: rgba(0,0,0,0.4);
+      padding-top: 60px;
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 5% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      border-radius: 10px;
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    @media screen and (max-width: 768px) {
+      .container {
+        width: 70%;
+        padding: 20px;
+      }
+
+      .box-container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .box {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="title">국내 무료로 접종이 가능한 백신입니다.</div>
+  <div class="subtitle">지원 대상: 12세 이하 어린이</div>
+  <div class="badge">
+    <img src="/static/logo2.jpg" alt="질병관리청 로고">
+    질병관리청 제공
+  </div>
+
+  <div class="vaccine-list">
+    <div class="box-container">
+      <div class="box" onclick="openModal('결핵(BCG, 피내용)', '결핵에 대한 자세한 정보입니다.')">결핵(BCG, 피내용)</div>
+      <div class="box" onclick="openModal('B형간염(HepB)', 'B형간염 백신에 대한 자세한 정보입니다.')">B형간염(HepB)</div>
+    </div>
+
+    <div class="box-container">
+      <div class="box" onclick="openModal('디프테리아/파상풍/백일해(DTaP)', '디프테리아/파상풍/백일해 백신에 대한 자세한 정보입니다.')">디프테리아/파상풍/백일해(DTaP)</div>
+      <div class="box" onclick="openModal('파상풍/디프테리아(Td)', '파상풍/디프테리아 백신에 대한 자세한 정보입니다.')">파상풍/디프테리아(Td)</div>
+    </div>
+    <div class="vaccine-list">
+      <div class="box-container">
+        <div class="box" onclick="openModal('결핵(BCG, 피내용)', '결핵에 대한 자세한 정보입니다.')">결핵(BCG, 피내용)</div>
+        <div class="box" onclick="openModal('B형간염(HepB)', 'B형간염 백신에 대한 자세한 정보입니다.')">B형간염(HepB)</div>
+      </div>
+
+      <div class="box-container">
+        <div class="box" onclick="openModal('디프테리아/파상풍/백일해(DTaP)', '디프테리아/파상풍/백일해 백신에 대한 자세한 정보입니다.')">디프테리아/파상풍/백일해(DTaP)</div>
+        <div class="box" onclick="openModal('파상풍/디프테리아(Td)', '파상풍/디프테리아 백신에 대한 자세한 정보입니다.')">파상풍/디프테리아(Td)</div>
+      </div>
+
+      <div class="box-container">
+        <div class="box" onclick="openModal('파상풍/디프테리아/백일해(Tdap)', '파상풍/디프테리아/백일해 백신에 대한 자세한 정보입니다.')">파상풍/디프테리아/백일해(Tdap)</div>
+        <div class="box" onclick="openModal('폴리오(IPV)', '폴리오 백신에 대한 자세한 정보입니다.')">폴리오(IPV)</div>
+      </div>
+
+      <div class="box-container">
+        <div class="box" onclick="openModal('홍역/유행성이하선염/풍진(MMR)', '홍역/유행성이하선염/풍진 백신에 대한 자세한 정보입니다.')">홍역/유행성이하선염/풍진(MMR)</div>
+        <div class="box" onclick="openModal('일본뇌염(불활성화 백신, 사백신)', '일본뇌염 백신(불활성화)에 대한 자세한 정보입니다.')">일본뇌염(불활성화 백신, 사백신)</div>
+      </div>
+
+      <div class="box-container">
+        <div class="box" onclick="openModal('일본뇌염(약독화 생백신, 생백신)', '일본뇌염 백신(약독화 생백신)에 대한 자세한 정보입니다.')">일본뇌염(약독화 생백신, 생백신)</div>
+        <div class="box" onclick="openModal('인플루엔자(Flu)', '인플루엔자 백신에 대한 자세한 정보입니다.')">인플루엔자(Flu)</div>
+      </div>
+
+      <div class="box-container">
+        <div class="box" onclick="openModal('B형헤모필루스인플루엔자(Hib)', 'B형헤모필루스인플루엔자 백신에 대한 자세한 정보입니다.')">B형헤모필루스인플루엔자(Hib)</div>
+        <div class="box" onclick="openModal('디프테리아/파상풍/백일해/폴리오(DTaP-IPV)', '디프테리아/파상풍/백일해/폴리오 백신에 대한 자세한 정보입니다.')">디프테리아/파상풍/백일해/폴리오(DTaP-IPV)</div>
+      </div>
+
+      <div class="box-container">
+        <div class="box" onclick="openModal('디프테리아/파상풍/백일해/폴리오/Hib(DTaP-IPV/Hib)', '디프테리아/파상풍/백일해/폴리오/Hib 백신에 대한 자세한 정보입니다.')">디프테리아/파상풍/백일해/폴리오/Hib(DTaP-IPV/Hib)</div>
+        <div class="box" onclick="openModal('수두(VAR)', '수두 백신에 대한 자세한 정보입니다.')">수두(VAR)</div>
+      </div>
+
+      <div class="box-container">
+        <div class="box" onclick="openModal('A형간염(HepA)', 'A형간염 백신에 대한 자세한 정보입니다.')">A형간염(HepA)</div>
+        <div class="box" onclick="openModal('폐렴구균(PCV 13가)', '폐렴구균(PCV 13가) 백신에 대한 자세한 정보입니다.')">폐렴구균(PCV 13가)</div>
+      </div>
+
+      <div class="box-container">
+        <div class="box" onclick="openModal('폐렴구균(PCV 10가)', '폐렴구균(PCV 10가) 백신에 대한 자세한 정보입니다.')">폐렴구균(PCV 10가)</div>
+        <div class="box" onclick="openModal('사람유두바이러스(HPV, 가다실) - 자궁경부암', 'HPV 백신(자궁경부암 예방) 대한 자세한 정보입니다.')">사람유두바이러스(HPV, 가다실) - 자궁경부암</div>
+      </div>
+
+      <div class="box-container">
+        <div class="box" onclick="openModal('로타바이러스(로타릭스)', '로타바이러스 백신(로타릭스) 대한 자세한 정보입니다.')">로타바이러스(로타릭스)</div>
+        <div class="box" onclick="openModal('로타바이러스(로타)', '로타바이러스 백신(로타) 대한 자세한 정보입니다.')">로타바이러스(로타)</div>
+      </div>
+    </div>
+
+  </div>
+
+  <button class="button">확인 🏥</button>
+</div>
+
+<!-- 모달 -->
+<div id="vaccineModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h2 id="vaccineTitle"></h2>
+    <p id="vaccineDescription"></p>
+  </div>
+</div>
+
+<script>
+  // 모달 열기
+  function openModal(title, description) {
+    document.getElementById("vaccineTitle").innerText = title;
+    document.getElementById("vaccineDescription").innerText = description;
+    document.getElementById("vaccineModal").style.display = "block";
+  }
+
+  // 모달 닫기
+  function closeModal() {
+    document.getElementById("vaccineModal").style.display = "none";
+  }
+
+  // 모달 밖을 클릭하면 닫기
+  window.onclick = function(event) {
+    if (event.target == document.getElementById("vaccineModal")) {
+      closeModal();
+    }
+  }
+</script>
+</body>
+</html>
