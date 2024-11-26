@@ -14,4 +14,5 @@ public interface IF_UserMapper {
     String selectRegnum(String user_name);
     List<UserVO> selectAllName();
     String selectId(String user_register_number);
+    void insertUserCommonInfo(UserVO userVO);
 }

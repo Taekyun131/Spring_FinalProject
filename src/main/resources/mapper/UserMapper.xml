@@ -18,4 +18,8 @@
     <select id="selectAllName" resultType="com.asklepios.hospitalreservation_asklepios.VO.UserVO">
         SELECT user_name FROM users
     </select>
+
+    <insert id="insertUserCommonInfo" parameterType="com.asklepios.hospitalreservation_asklepios.VO.UserVO">
+        INSERT INTO users VALUES (#{user_id},#{user_password},#{user_name},#{user_name_eng},#{user_register_number},#{user_tel},#{user_addr},#{user_email},#{user_authority},#{user_info_agreement},#{user_image})
+    </insert>
 </mapper>

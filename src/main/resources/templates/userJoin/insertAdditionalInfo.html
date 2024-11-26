@@ -98,10 +98,19 @@
             }
         }).open();
     }
+    function checkInfo() {
+        let totalEngName;
+        let a = document.getElementById('user_first_name_eng').value;
+        let b =  document.getElementById('user_last_name_eng').value;
+        totalEngName = a + ' ' + b;
+        console.log(totalEngName);
+        document.getElementsByName('user_name_eng').innerText=totalEngName;
+        document.getElementById('submit').submit();
+    }
 </script>
 <body>
 <h1 style="font-size: xx-large; text-align: center">회원 정보 입력</h1>
-    <form action="/asklepios/commoninfo" method="post">
+    <form action="/asklepios/commoninfo" method="post" onsubmit="return checkInfo(this)" id="submit">
         <div class="tableSet">
             <table>
                 <tr>
@@ -140,8 +149,9 @@
                         <label for="user_first_name_eng" class="mx-auto block font-medium text-gray-900 dark:text-white">사용자 이름(영문)<span style="color: red">(*)</span></label>
                     </td>
                     <td>
-                        <input type="text" id="user_first_name_eng" title="EnglishName_First" name="user_name_eng" class="mx-auto bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" placeholder="First Name" style="width: 49%">
-                        <input type="text" id="user_last_name_eng" title="EnglishName_Last" name="user_name_eng" class="mx-auto bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" placeholder="Last Name" style="width: 50%">
+                        <input type="text" id="user_first_name_eng" title="EnglishName_First" class="mx-auto bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" placeholder="First Name" style="width: 49%">
+                        <input type="text" id="user_last_name_eng" title="EnglishName_Last" class="mx-auto bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" placeholder="Last Name" style="width: 50%">
+                        <input type="text" name="user_name_eng" value="" hidden>
                     </td>
                 </tr>
                 <tr>

@@ -60,4 +60,9 @@ public class IM_UserService implements IF_UserService{
         }
     }
 
+    @Override
+    public void addUserCommonInfo(UserVO userVO) {
+        usermapper.insertUserCommonInfo(userVO);
+    }
+
 }
