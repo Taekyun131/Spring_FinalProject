@@ -4,19 +4,19 @@
     <meta charset="UTF-8">
     <title>InsertCommonInfo</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="../../static/CSS/font.css">
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <style>
+    @font-face {
+        font-family: 'Pretendard-Regular';
+        src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+        font-weight: 400;
+        font-style: normal;
+    }
     body {
         width: 1920px;
-        font-family: Pretendard,Serif,sans-serif;
-        box-sizing: border-box;
+        font-family: 'Pretendard-Regular',serif;
         border: 1px black solid;
-    }
-    .insertContent {
-        width: 20%;
-        height: 80px;
     }
     .insertValue {
         width: 80%;
@@ -25,11 +25,9 @@
     .tableSet {
         display: flex;
         justify-content: center;
-        /*border: 1px black solid;*/
     }
     table {
         width: 40%;
-        /*border: 1px black solid;*/
     }
     table tr td input {
         width: 100%;
@@ -37,7 +35,6 @@
         border-radius: 10px;
     }
     table tr td {
-        /*border: 1px black solid;*/
         height: 100px;
     }
     .sheet {
@@ -98,25 +95,81 @@
             }
         }).open();
     }
+    function checkDuplicateID() {
+        
+    }
+    function changeDomain(domain) {
+        if(domain === "write") {
+            document.getElementById('user_email_domain').value = "";
+            document.getElementById('user_email_domain').readOnly = false;
+            document.getElementById('user_email_domain').placeholder = "직접 입력";
+        } else {
+            document.getElementById('user_email_domain').value = domain;
+            document.getElementById('user_email_domain').readOnly = true;
+        }
+
+    }
+    function checkInfo(submit) {
+        let firstEngName;
+        let lastEngName;
+        let totalEngName = "";
+        firstEngName = document.getElementById('user_first_name_eng').value;
+        lastEngName = document.getElementById('user_last_name_eng').value;
+        totalEngName = firstEngName + ' ' + lastEngName;
+        document.getElementsByName('user_name_eng')[0].value = totalEngName;
+
+        let totalRegisterNumber;
+        totalRegisterNumber = document.getElementById('user_register_first_number').value + '-' + document.getElementById('user_register_second_number').value;
+        document.getElementsByName('user_register_number')[0].value = totalRegisterNumber;
+
+        let totalPhoneNumber;
+        totalPhoneNumber = document.getElementById('user_tel_first_number').value + '-' + document.getElementById('user_tel_second_number').value + '-' + document.getElementById('user_tel_third_number').value;
+        document.getElementsByName('user_tel')[0].value = totalPhoneNumber;
+
+        let totalEmailAddress;
+        totalEmailAddress = document.getElementById('user_email_address').value + '@' + document.getElementById('user_email_domain').value;
+        document.getElementsByName('user_email')[0].value = totalEmailAddress;
+
+        let totalAddress;
+        totalAddress = document.getElementById('sample6_postcode').value
+            + ',' + document.getElementById('sample6_address').value
+            + ',' + document.getElementById('sample6_detailAddress').value
+            + ',' + document.getElementById('sample6_extraAddress').value;
+        document.getElementsByName('user_addr')[0].value = totalAddress;
+
+        return true;
+    }
 </script>
 <body>
 <h1 style="font-size: xx-large; text-align: center">회원 정보 입력</h1>
-    <form action="/asklepios/commoninfo" method="post">
-        <div class="tableSet">
-            <table>
-                <tr>
-                    <td style="width: 20%">
-                        <label for="user_id" class="mx-auto block font-medium text-gray-900 dark:text-white">아이디<span style="color: red">(*)</span></label>
-                    </td>
-                    <td>
-                        <input type="text"  id="user_id" name="user_id" class="mx-auto block bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" placeholder="사용하실 아이디를 입력하시오.">
-                    </td>
-                <tr>
-                    <td style="width: 20%">
-                        <label for="user_password" class="mx-auto block font-medium text-gray-900 dark:text-white">비밀번호<span style="color: red">(*)</span></label>
-                    </td>
-                    <td class="insertValue">
-                        <input type="password" id="user_password" name="user_password" class="mx-auto block bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" placeholder="사용하실 비밀번호를 입력하시오.">
+<form action="/asklepios/commoninfo" method="post" onsubmit="return checkInfo()" id="submit">
+    <div class="tableSet">
+        <table>
+            <tr>
+                <td style="width: 20%">
+                    <label for="user_id" class="mx-auto block font-medium text-gray-900 dark:text-white">아이디<span
+                            style="color: red">(*)</span></label>
+                </td>
+                <td>
+                    <input type="text" id="user_id" name="user_id"
+                           class="mx-auto block bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none"
+                           placeholder="사용하실 아이디를 입력하시오." style="display: inline-block; width: 49.5%">
+                    <button type="button" class="mx-auto block bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" onclick="checkDuplicateID()" style="width: 49.5%; display: inline-block; height: 70px; border-radius: 10px;">아이디 중복 확인</button>
+                </td>
+            <tr>
+            <tr>
+                <td style="height: auto"></td>
+                <td style="height: auto">
+                    <p>사용하실 아이디는 영어 12자 또는 한글 6자 이내로 하며, <br>다음으로 넘어가기 전 반드시 아이디 중복체크를 하십시오.</p>
+                </td>
+            </tr>
+                <td style="width: 20%">
+                    <label for="user_password" class="mx-auto block font-medium text-gray-900 dark:text-white">비밀번호<span
+                            style="color: red">(*)</span></label>
+                </td>
+                <td class="insertValue">
+                    <input type="password" id="user_password" name="user_password"
+                           class="mx-auto block bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" placeholder="사용하실 비밀번호를 입력하시오.">
                     </td>
                 </tr>
                 <tr>
@@ -139,9 +192,10 @@
                     <td style="width: 20%">
                         <label for="user_first_name_eng" class="mx-auto block font-medium text-gray-900 dark:text-white">사용자 이름(영문)<span style="color: red">(*)</span></label>
                     </td>
-                    <td>
-                        <input type="text" id="user_first_name_eng" title="EnglishName_First" name="user_name_eng" class="mx-auto bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" placeholder="First Name" style="width: 49%">
-                        <input type="text" id="user_last_name_eng" title="EnglishName_Last" name="user_name_eng" class="mx-auto bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" placeholder="Last Name" style="width: 50%">
+                    <td class="insertValue">
+                        <input type="text" id="user_first_name_eng" title="EnglishName_First" class="mx-auto bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" placeholder="First Name" style="width: 49.5%">
+                        <input type="text" id="user_last_name_eng" title="EnglishName_Last" class="mx-auto bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" placeholder="Last Name" style="width: 49.5%">
+                        <input type="hidden" id="user_name_eng" name="user_name_eng" value="">
                     </td>
                 </tr>
                 <tr>
@@ -149,9 +203,10 @@
                         <label for="user_register_first_number" class="mx-auto block font-medium text-gray-900 dark:text-white">주민등록번호<span style="color: red">(*)</span></label>
                     </td>
                     <td>
-                        <input type="text" id="user_register_first_number" title="주민등록번호 앞자리" name="user_register_first_number" class="mx-auto bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" placeholder="주민등록 앞자리" style="width: 46%">
+                        <input type="text" id="user_register_first_number" title="주민등록번호 앞자리" class="mx-auto bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" placeholder="주민등록 앞자리" style="width: 46%">
                         <span>&nbsp-&nbsp</span>
-                        <input type="password" id="user_register_second_number" title="주민등록번호 뒷자리" name="user_register_second_number" class="mx-auto bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" placeholder="주민등록 뒷자리" style="width: 50%">
+                        <input type="password" id="user_register_second_number" title="주민등록번호 뒷자리" class="mx-auto bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" placeholder="주민등록 뒷자리" style="width: 50%">
+                        <input type="hidden" name="user_register_number" value="">
                     </td>
                 </tr>
                 <tr>
@@ -164,6 +219,26 @@
                         <input type="text" id="user_tel_second_number" name="user_tel_second_number" class="mx-auto bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" placeholder="0000" style="width: 35%">
                         <span>-</span>
                         <input type="text" id="user_tel_third_number" name="user_tel_third_number" class="mx-auto bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" placeholder="0000" style="width: 35%">
+                        <input type="hidden" name="user_tel" value="">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 20%">
+                        <label for="user_email_address" class="mx-auto block font-medium text-gray-900 dark:text-white">이메일<span style="color: red">(*)</span></label>
+                    </td>
+                    <td>
+                        <input type="text" id="user_email_address" class="mx-auto bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" placeholder="address" style="width: 30%">
+                        <span>@</span>
+                        <input type="text" id="user_email_domain" class="mx-auto bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" placeholder="domain" style="width: 30%">
+                        <select id="email_domain" onchange="changeDomain(this.value)" class="mx-auto bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" style="width: 35.5%; height: 70px">
+                            <option value="write">=== 선택 ===</option>
+                            <option value="naver.com">naver.com</option>
+                            <option value="gmail.com">gmail.com</option>
+                            <option value="kakao.com">kakao.com</option>
+                            <option value="daum.net">daum.net</option>
+                            <option value="hanmail.net">hanmail.net</option>
+                        </select>
+                        <input type="hidden" name="user_email" value="">
                     </td>
                 </tr>
                 <tr>
@@ -176,6 +251,7 @@
                         <input type="text" id="sample6_address" class="mx-auto bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" placeholder="주소">
                         <input type="text" id="sample6_detailAddress" class="mx-auto bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" placeholder="상세주소">
                         <input type="text" id="sample6_extraAddress" class="mx-auto bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" placeholder="참고항목">
+                        <input type="hidden" name="user_addr" value="">
                     </td>
                 </tr>
                 <tr>
@@ -209,7 +285,7 @@
             </table>
         </div>
         <div style="text-align: center">
-            <button type="submit" class="bg-blue-800 rounded-lg w-48 h-12 my-10 text-white" name="submit" style="font-size: 18px;"><strong>  다음 →</strong></button>
+            <button type="submit" class="bg-blue-800 rounded-lg w-48 h-12 my-10 text-white"  style="font-size: 18px;"><strong>  다음 →</strong></button>
         </div>
     </form>
     <br>
@@ -221,13 +297,13 @@
         </div>
         <div style="width: 50px; border: 1px solid gray"></div>
         <div style="text-align: center">
-            <div class="sheet">
+            <div class="sheet" style="background-color: #1e40af; color: white">
                 <p><strong>본인 인증</strong></p>
             </div>
         </div>
         <div style="width: 50px; border: 1px solid gray"></div>
         <div style="text-align: center">
-            <div class="sheet">
+            <div class="sheet" style="background-color: #1e40af; color: white">
                 <p><strong>회원 가입</strong></p>
             </div>
         </div>
@@ -238,6 +314,5 @@
             </div>
         </div>
     </div>
-
 </body>
 </html>

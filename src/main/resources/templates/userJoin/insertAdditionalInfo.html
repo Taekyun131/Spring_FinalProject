@@ -11,6 +11,7 @@
     body {
         width: 1920px;
         font-family: Pretendard,Serif,sans-serif;
+
         box-sizing: border-box;
         border: 1px black solid;
     }
@@ -98,19 +99,29 @@
             }
         }).open();
     }
-    function checkInfo() {
-        let totalEngName;
-        let a = document.getElementById('user_first_name_eng').value;
-        let b =  document.getElementById('user_last_name_eng').value;
-        totalEngName = a + ' ' + b;
+    function checkInfo(submit) {
+        console.log("안녕하세요");
+        let firstEngName;
+        let lastEngName;
+        let totalEngName = "";
+        firstEngName = document.getElementById('user_first_name_eng').value;
+        lastEngName = document.getElementById('user_last_name_eng').value;
+        totalEngName = "안녕하세요";
         console.log(totalEngName);
-        document.getElementsByName('user_name_eng').innerText=totalEngName;
-        document.getElementById('submit').submit();
+        console.log("Hello World")
+        document.getElementsByName('user_name_eng').value=String(totalEngName);
+        console.log(document.getElementsByName('user_name_eng').value);
+
+        let totalRegisterNumber;
+        totalRegisterNumber = document.getElementById('user_register_first_number') + '-' + document.getElementById('user_register_second_number');
+        document.getElementsByName('user_register_number').innerText=totalRegisterNumber;
+
     }
 </script>
 <body>
 <h1 style="font-size: xx-large; text-align: center">회원 정보 입력</h1>
-    <form action="/asklepios/commoninfo" method="post" onsubmit="return checkInfo(this)" id="submit">
+    <form action="/asklepios/commoninfo" method="post" onsubmit="return checkInfo()" id="submit">
+<!--    <form action="#" method="get" onsubmit="return checkInfo(this)">-->
         <div class="tableSet">
             <table>
                 <tr>
@@ -151,7 +162,7 @@
                     <td>
                         <input type="text" id="user_first_name_eng" title="EnglishName_First" class="mx-auto bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" placeholder="First Name" style="width: 49%">
                         <input type="text" id="user_last_name_eng" title="EnglishName_Last" class="mx-auto bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" placeholder="Last Name" style="width: 50%">
-                        <input type="text" name="user_name_eng" value="" hidden>
+                        <input type="hidden" name="user_name_eng" value="">
                     </td>
                 </tr>
                 <tr>
@@ -159,9 +170,10 @@
                         <label for="user_register_first_number" class="mx-auto block font-medium text-gray-900 dark:text-white">주민등록번호<span style="color: red">(*)</span></label>
                     </td>
                     <td>
-                        <input type="text" id="user_register_first_number" title="주민등록번호 앞자리" name="user_register_first_number" class="mx-auto bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" placeholder="주민등록 앞자리" style="width: 46%">
+                        <input type="text" id="user_register_first_number" title="주민등록번호 앞자리" class="mx-auto bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" placeholder="주민등록 앞자리" style="width: 46%">
                         <span>&nbsp-&nbsp</span>
-                        <input type="password" id="user_register_second_number" title="주민등록번호 뒷자리" name="user_register_second_number" class="mx-auto bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" placeholder="주민등록 뒷자리" style="width: 50%">
+                        <input type="password" id="user_register_second_number" title="주민등록번호 뒷자리" class="mx-auto bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" placeholder="주민등록 뒷자리" style="width: 50%">
+                        <input type="hidden" name="user_register_number" value="">
                     </td>
                 </tr>
                 <tr>
@@ -174,6 +186,17 @@
                         <input type="text" id="user_tel_second_number" name="user_tel_second_number" class="mx-auto bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" placeholder="0000" style="width: 35%">
                         <span>-</span>
                         <input type="text" id="user_tel_third_number" name="user_tel_third_number" class="mx-auto bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" placeholder="0000" style="width: 35%">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 20%">
+                        <label for="user_email_address" class="mx-auto block font-medium text-gray-900 dark:text-white">전화번호<span style="color: red">(*)</span></label>
+                    </td>
+                    <td>
+                        <input type="text" id="user_email_address" class="mx-auto bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" placeholder="010" style="width: 25%">
+                        <span>@</span>
+                        <input type="text" id="user_email_domain" class="mx-auto bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 mx-20 p-5 focus:ring-2 focus:outline-none" placeholder="0000" style="width: 35%">
+                        <input type="hidden" name="user_email" value="">
                     </td>
                 </tr>
                 <tr>
@@ -219,7 +242,7 @@
             </table>
         </div>
         <div style="text-align: center">
-            <button type="submit" class="bg-blue-800 rounded-lg w-48 h-12 my-10 text-white" name="submit" style="font-size: 18px;"><strong>  다음 →</strong></button>
+            <button type="submit" class="bg-blue-800 rounded-lg w-48 h-12 my-10 text-white"  style="font-size: 18px;"><strong>  다음 →</strong></button>
         </div>
     </form>
     <br>

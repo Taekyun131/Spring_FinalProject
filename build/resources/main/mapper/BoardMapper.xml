@@ -21,4 +21,13 @@
     <select id="countBoard" resultType="int">
         select count(*) from testboard where board_category='오늘의 건강'
     </select>
+    <select id="selectOne" resultType="com.asklepios.hospitalreservation_asklepios.VO.BoardVO">
+        select * from testboard where board_sequence=#{board_sequence}
+    </select>
+    <update id="updateBoard" parameterType="com.asklepios.hospitalreservation_asklepios.VO.BoardVO" >
+        update testboard set board_category=#{board_category}, board_title=#{board_title},board_content=#{board_content},board_binary=#{board_binary} where board_sequence=#{board_sequence}
+    </update>
+    <update id="plusViewCount" >
+        update testboard set board_viewcount=#{board_viewcount} where board_sequence=#{board_sequence}
+    </update>
 </mapper>
