@@ -12,6 +12,7 @@ public interface IF_BoardService {
     public List<BoardVO> boardCampaignList(PageVO pagevo)throws Exception;
     public List<BoardVO> boardMedList(PageVO pagevo)throws Exception;
     public List<BoardVO> boardFreeList(PageVO pagevo)throws Exception;
+    public List<BoardVO> boardNoticeList()throws Exception;
     public int boardCount();
     public BoardVO modBoard(String no) throws Exception;
     public void modBoard(BoardVO boardVO);

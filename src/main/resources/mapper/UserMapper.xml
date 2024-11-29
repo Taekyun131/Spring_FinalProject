@@ -27,8 +27,15 @@
         UPDATE users SET user_password = #{pwd} WHERE user_id=#{user_id}
     </update>
 
-
     <insert id="insertUserCommonInfo" parameterType="com.asklepios.hospitalreservation_asklepios.VO.UserVO">
         INSERT INTO users VALUES (#{user_id},#{user_password},#{user_name},#{user_name_eng},#{user_register_number},#{user_tel},#{user_addr},#{user_email},#{user_authority},#{user_info_agreement},#{user_image})
     </insert>
+
+    <select id="duplicateIDCheck" parameterType="String" resultType="String">
+        SELECT user_id from users where user_id = #{user_id}
+    </select>
+
+    <select id="duplicateRegisterNumberCheck" parameterType="String" resultType="String">
+        SELECT user_register_number from users where user_register_number = #{user_register_number}
+    </select>
 </mapper>

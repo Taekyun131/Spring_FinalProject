@@ -190,7 +190,7 @@ section{
     border-collapse: collapse;
     border-top: none;
 }
-#boardtable td, .table th {
+#boardtable td, .table th{
     border-bottom: 1px lightgray solid;
     height: 30px;
     font-size: 14px;

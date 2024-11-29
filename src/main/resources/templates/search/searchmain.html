@@ -8,116 +8,183 @@
             src="https://kit.fontawesome.com/68dda164c0.js"
             crossorigin="anonymous"
     ></script>
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0ed2bd9a4fc16e942f081b64d8391986"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+            src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous"
+    ></script>
 </head>
 <link rel="stylesheet" href="home.css" />
 <style>
+    #search-header{
+        margin-top: 50px;
+        /*margin-left: 80px;*/
+        font-size: 30px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
     table{
-        margin-top: 100px;
-        margin-left: 100px;
-        width: 800px;
-        font-size: 20px;
+        margin: auto;
+        /*border: 1px solid;*/
+        width: 600px;
+        height: 800px;
+        box-sizing: border-box;
     }
-    table,td{
+    tr,thead{
+        height: 60px;
+        border-bottom: 1px lightgray solid;
+        box-sizing: border-box;
+    }
+    .rheader{
+        width: 300px;
+        height: 50px;
         border: 1px solid;
+        font-size: 25px;
     }
-    #search{
+    .resultrow{
+        width: 400px;
+        height: 140px;
+        /*border: 1px solid;*/
+        margin-left: 30px;
+        padding: 5px;
+    }
+    #filter{
+        /*position: fixed;*/
+        width: 500px;
+        /*border: 1px solid;*/
+        margin-left: 250px;
+        height: 40px;
+        text-align: center;
+    }
+    .filter_button{
+        display: inline-block;
+        border: 1px solid #3B82F6;
+        border-radius: 10px;
         width: 100px;
         height: 40px;
-        font-size: 15px;
-        border: 0;
-        outline: 1.5px rgb(19, 97, 3) solid;
-        border-radius: 5px;
-        padding-left: 10px;
-        background-color: rgb(60, 113, 47);
+        color: black;
+        font-size: 20px;
+    }
+    .info{
+        font-size: 20px;
+    }
+    #modal{
+        margin-left:150px;
+        margin-top: 50px;
+        position: absolute;
+        width: 600px;
+        height: 800px;
+        border: 1px solid;
+        border-radius: 30px;
+        display:none;
+    }
+    #modalheader{
+        margin: 0;
+        border: 1px solid;
+        border-top-left-radius: 30px;
+        border-top-right-radius: 30px;
+        font-size: 30px;
+        text-align: center;
+    }
+    .subject{
+        width: 550px;
+        height: 50px;
+        border: 1px solid;
+        border-radius: 10px;
+        font-size: 20px;
+        text-align: center;
+        margin-top: 10px;
+        margin-left: 20px;
     }
 </style>
 <body>
-<div th:replace="include/topinclude"></div>
-
-
+<div style="position: fixed" th:replace="include/topinclude"></div>
 <aside id="aside1">
 
 </aside>
 <section>
-    <div>
-        <form action="#">
-            <table>
-                <tr>
-                    <td width="20%"><label>지역:</label></td>
-                    <td>
-                        <select>
-                            <option value="1">수원시</option>
-                            <option value="2">용인시</option>
-                            <option value="3">의왕시</option>
-                            <option value="4">화성시</option>
-                            <option value="5">시흥시</option>
-                            <option value="6">고양시</option>
-                            <option value="7">안산시</option>
-                            <option value="8">이천시</option>
-                            <option value="9">안양시</option>
-                            <option value="10">평택시</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td width="20%"><label>진료과:</label></td>
-                    <td>
-                        <select>
-                            <option value="1">내과</option>
-                            <option value="2">이비인후과</option>
-                            <option value="3">정형외과</option>
-                            <option value="4">성형외과</option>
-                            <option value="5">정신건강의학과</option>
-                            <option value="6">피부과</option>
-                            <option value="7">안과</option>
-                            <option value="8">소아청소년과</option>
-                            <option value="9">산부인과</option>
-                            <option value="10">비뇨기과</option>
-                            <option value="11">외과</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td width="20%"><label>진료시간:</label></td>
-                    <td>
-                        <select name="" id="">
-                            <option value="1">주간</option>
-                            <option value="1">야간</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>주말진료:</td>
-                    <td>
-                        <select name="">
-                            <option value="1">주말진료</option>
-                            <option value="2">주말휴무</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><input id="search" type="submit" value="검색하기"></td>
-                </tr>
-            </table>
-        </form>
-        <table id="result">
-            <thead>
-                <tr>
-                    <td>병원명</td>
-                    <td>운영시간</td>
-                    <td>전화번호</td>
-                </tr>
-            </thead>
-            <tbody>
-
-                <tr ></tr>
-            </tbody>
-        </table>
+    <div id="search-header">검색결과</div>
+    <div id="filter">
+        <span class="filter_button">진료과목</span>
+        <span class="filter_button">진료중</span>
+        <span class="filter_button">평일</span>
     </div>
-    <div id="map" style="width:500px;height:400px;"></div>
-
+   <div>
+        <table>
+            <thead>
+            <tr></tr>
+            </thead>
+            <tr>
+                <td>
+                    <div class="resultrow">
+                        <div class="rheader"><a href="#">연세바다소아청소년의원</a></div>
+                        <div class="time">
+                            <span class="info">진료시간: 0900-1800 |</span>
+                            <span class="info">내과</span>
+                        </div>
+                        <div class="info">수원시 영통구</div>
+                        <div class="info">010-1234-1234</div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="resultrow">
+                        <div class="rheader"><a href="#">연세바다소아청소년의원</a></div>
+                        <div class="time">
+                            <span class="info">진료시간: 0900-1800 |</span>
+                            <span class="info">내과</span>
+                        </div>
+                        <div class="info">수원시 영통구</div>
+                        <div class="info">010-1234-1234</div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="resultrow">
+                        <div class="rheader"><a href="#">연세바다소아청소년의원</a></div>
+                        <div class="time">
+                            <span class="info">진료시간: 0900-1800 |</span>
+                            <span class="info">내과</span>
+                        </div>
+                        <div class="info">수원시 영통구</div>
+                        <div class="info">010-1234-1234</div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="resultrow">
+                        <div class="rheader"><a href="#">연세바다소아청소년의원</a></div>
+                        <div class="time">
+                            <span class="info">진료시간: 0900-1800 |</span>
+                            <span class="info">내과</span>
+                        </div>
+                        <div class="info">수원시 영통구</div>
+                        <div class="info">010-1234-1234</div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+   </div>
+    <div id="modal">
+        <div id="modalheader">
+            진료과목 선택
+        </div>
+        <div class="subject">내과</div>
+        <div class="subject">이비인후과</div>
+        <div class="subject">정형외과</div>
+        <div class="subject">성형외과</div>
+        <div class="subject">정신건강의학과</div>
+        <div class="subject">피부과</div>
+        <div class="subject">안과</div>
+        <div class="subject">소아청소년과</div>
+        <div class="subject">산부인과</div>
+        <div class="subject">비뇨기과</div>
+        <div class="subject">외과</div>
+    </div>
 </section>
 <aside id="aside2"></aside>
 <footer id="ad">
@@ -126,9 +193,51 @@
 <footer id="footer">
     <h1>footer</h1>
 </footer>
-
 </body>
 </html>
+<script>
+    let subButton=document.getElementsByClassName("filter_button")[0];
+    let dayButton=document.getElementsByClassName("filter_button")[2];
+    dayButton.addEventListener("click",changeday);
+    subButton.addEventListener("click",subSelect);
+        // console.log(day.innerText);
+        // console.log(day.firstChild.innerText);
+    function changeday() {
+        if (dayButton.innerText === "평일") {
+            dayButton.innerText = "주말";
+        } else {
+            dayButton.innerText = "평일";
+        }
+    }
+    //진료과목 클릭시 모달창
+    function subSelect(){
+        let modal=document.getElementById("modal");
+        let body=document.querySelector("body");
+        body.style.background="gray";
+        modal.style.display="inline-block";
+        modal.style.background="white";
+    }
+    let subjects=document.getElementsByClassName("subject");
+    //진료과목 리스너 등록
+    for(let i=0;i<subjects.length;i++){
+
+        subjects[i].addEventListener("click",()=>{
+            const selSub=subjects[i].innerText;
+            selectSubject(selSub);
+        });
+    }
+    //진료과목 선택
+    function selectSubject(selSub){
+        let modal=document.getElementById("modal");
+        let body=document.querySelector("body");
+        body.style.background="white";
+        modal.style.display="none";
+        console.log(selSub);
+
+    }
+
+</script>
+
 
 
 

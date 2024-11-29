@@ -1,14 +1,30 @@
 package com.asklepios.hospitalreservation_asklepios.Controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.asklepios.hospitalreservation_asklepios.Service.LikeService;
+import com.asklepios.hospitalreservation_asklepios.VO.LikeVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 
 @RestController
 public class LikeController {
-    @GetMapping("/like")
-   public String like(){
+    @Autowired
+    LikeService likeService;
+    @PostMapping("/like")
+   public boolean like(@RequestBody LikeVO likeVO) {
 
+//        System.out.println(likeVO.getLike_id());
+//        System.out.println(likeVO.getBoard_sequence());
+//        likeVO.setLiked(true);
 
-     return null;
+//        HashMap<String,Object> map = new HashMap<>();
+//        likeVO.setLiked(likeService.checkLike(likeVO));
+//        map.put("likeVO", likeVO);
+        //        System.out.println(likeVO.toString());
+//        map.put("likeVO", likeVO);
+
+     return likeService.checkLike(likeVO);
+//        return map;
     }
 }

@@ -8,6 +8,11 @@
             src="https://kit.fontawesome.com/68dda164c0.js"
             crossorigin="anonymous"
     ></script>
+    <script
+            src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous"
+    ></script>
 </head>
 <link rel="stylesheet" href="boardmain.css" />
 <body>
@@ -394,8 +399,13 @@
                     </td>
                 </tr>
             </table>
-
         </form>
+        <table>
+            <tr>
+                <td><button  id="like" onclick="test()" style="width: 80px;height: 30px"><i class="fa-solid fa-heart"></i></button></td>
+                <!--                <td><button th:if="isliked" id="like" onclick="test()" style="width: 80px;height: 30px"><i class="fa-solid fa-heart"></i></button></td>-->
+            </tr>
+        </table>
 
     </div>
 
@@ -413,7 +423,42 @@
 </body>
 </html>
 <script>
-    function board_like(){
+    // var userid=document.getElementById("userid").value;
+    var board_user_id="test2";
+    var board_sequence=document.getElementsByName("board_sequence")[0].value;
+    var likevo= {
+        "board_user_id": board_user_id,
+        "board_sequence": board_sequence,
+        "liked": true,
+        "like_id": "test"
+
+    };
+
+    let like=document.getElementById("like");
+    function test(){
+        // console.log(likevo);
+        $.ajax({
+            url:"like",
+            type:"post",
+            data:JSON.stringify(likevo),
+            dataType: "json",
+            contentType:"application/json",
+            success:function (data){
+                // console.log(data);
+                if(data){
+                    alert("좋아요 취소");
+                    return false;
+                }else{
+                    alert("좋아요");
+                    return true;
+                }
+            },
+            error:function (errorThrown){
+                alert(errorThrown.statusText);
+
+            }
+        })
 
     }
+
 </script>

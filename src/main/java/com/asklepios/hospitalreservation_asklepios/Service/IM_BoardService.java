@@ -15,18 +15,7 @@ public class IM_BoardService implements IF_BoardService{
 
     @Override
     public void addBoard(BoardVO boardVO) {
-        String category=boardVO.getBoard_category();
-        if(category!=null){
-            if(category.equals("1")){
-                boardVO.setBoard_category("오늘의 건강");
-            } else if (category.equals("2")) {
-                boardVO.setBoard_category("캠페인");
-            }else if (category.equals("3")) {
-                boardVO.setBoard_category("의료기기");
-            }else if (category.equals("4")) {
-                boardVO.setBoard_category("자유게시판");
-            }
-        }
+        selectCategory(boardVO);
         boardMapper.insertOne(boardVO);
     }
 
@@ -53,6 +42,11 @@ public class IM_BoardService implements IF_BoardService{
     }
 
     @Override
+    public List<BoardVO> boardNoticeList(){
+        return boardMapper.selectNotice();
+    }
+
+    @Override
     public int boardCount() {
         return boardMapper.countBoard();
     }
@@ -65,18 +59,7 @@ public class IM_BoardService implements IF_BoardService{
 
     @Override
     public void modBoard(BoardVO boardVO) {
-        String category=boardVO.getBoard_category();
-        if(category!=null){
-            if(category.equals("1")){
-                boardVO.setBoard_category("오늘의 건강");
-            } else if (category.equals("2")) {
-                boardVO.setBoard_category("캠페인");
-            }else if (category.equals("3")) {
-                boardVO.setBoard_category("의료기기");
-            }else if (category.equals("4")) {
-                boardVO.setBoard_category("자유게시판");
-            }
-        }
+      selectCategory(boardVO);
 //        System.out.println(boardVO.getBoard_sequence());
 //        System.out.println(boardVO.getBoard_content());
 //        System.out.println(boardVO.getBoard_category());
@@ -86,14 +69,27 @@ public class IM_BoardService implements IF_BoardService{
     @Override
     public BoardVO detail(String no) throws Exception {
         BoardVO boardVO=boardMapper.selectOne(no);
-        boardVO.setBoard_viewcount(
-                Integer.toString(Integer.parseInt(boardVO.getBoard_viewcount())+1)
-        );
+        boardVO.setBoard_viewcount((boardVO.getBoard_viewcount()+1));
 //        System.out.println(boardVO.getBoard_title());
 //        System.out.println(boardVO.getBoard_viewcount());
         boardMapper.plusViewCount(boardVO);
         return boardVO;
     }
-
+    private void selectCategory(BoardVO boardVO){
+        String category=boardVO.getBoard_category();
+        if(category!=null){
+            if(category.equals("0")) {
+                boardVO.setBoard_category("공지사항");
+            }else if(category.equals("1")){
+                boardVO.setBoard_category("오늘의 건강");
+            } else if (category.equals("2")) {
+                boardVO.setBoard_category("캠페인");
+            }else if (category.equals("3")) {
+                boardVO.setBoard_category("의료기기");
+            }else if (category.equals("4")) {
+                boardVO.setBoard_category("자유게시판");
+            }
+        }
+    }
 
 }

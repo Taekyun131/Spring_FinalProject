@@ -10,4 +10,6 @@ public interface IF_UserService {
     public String findEmail(String user_id);
     public String changePw(String user_id);
     public void addUserCommonInfo(UserVO userVO);
+    public int duplicateID(String user_id);
+    public int duplicateRegisterNumber(String user_register_number);
 }

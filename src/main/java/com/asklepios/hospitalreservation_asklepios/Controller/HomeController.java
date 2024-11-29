@@ -1,7 +1,9 @@
 package com.asklepios.hospitalreservation_asklepios.Controller;
 
 import com.asklepios.hospitalreservation_asklepios.Service.IF_BoardService;
+import com.asklepios.hospitalreservation_asklepios.Service.LikeService;
 import com.asklepios.hospitalreservation_asklepios.VO.BoardVO;
+import com.asklepios.hospitalreservation_asklepios.VO.LikeVO;
 import com.asklepios.hospitalreservation_asklepios.VO.PageVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,13 +13,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+
+
 import java.util.List;
+
+
+import static org.apache.tomcat.util.http.fileupload.FileUtils.*;
 
 @Controller
 public class HomeController {
     @Autowired
     IF_BoardService boardService;
-
+    LikeService likeService;
     @GetMapping("/home")
     public String main(){
         return "home";
@@ -30,7 +37,9 @@ public class HomeController {
         }
         pagevo.setTotalCount(boardService.boardCount());
         List<BoardVO> boardlist=boardService.boardAll(pagevo);
+        List<BoardVO> noticelist=boardService.boardNoticeList();
         model.addAttribute("boardlist", boardlist);
+        model.addAttribute("noticelist", noticelist);
         return "board/main";
     }
 
@@ -85,11 +94,12 @@ public class HomeController {
         return "board/write";
     }
 
-    @PostMapping("/bboard/submitwrite")
-    public String submitWrite(@ModelAttribute BoardVO boardVO) throws Exception {
+    @PostMapping("bboard/submitwrite")
+    public String submitWrite(@ModelAttribute BoardVO boardVO
+                              ) throws Exception {
 
         boardService.addBoard(boardVO);
-        return "redirect:/bboard_health";
+        return "redirect:/bboard_all";
 
     }
     @GetMapping("/detail")

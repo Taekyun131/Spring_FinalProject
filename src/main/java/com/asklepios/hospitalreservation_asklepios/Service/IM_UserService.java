@@ -91,4 +91,22 @@ public class IM_UserService implements IF_UserService{
         usermapper.insertUserCommonInfo(userVO);
     }
 
+    @Override
+    public int duplicateID(String user_id) {
+        if(usermapper.duplicateIDCheck(user_id) != null){
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    @Override
+    public int duplicateRegisterNumber(String user_register_number) {
+        if(usermapper.duplicateRegisterNumberCheck(user_register_number) != null){
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
 }
