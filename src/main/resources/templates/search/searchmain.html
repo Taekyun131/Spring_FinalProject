@@ -25,13 +25,17 @@
         margin: auto;
         /*border: 1px solid;*/
         width: 600px;
-        height: 800px;
+        /*height: 800px;*/
         box-sizing: border-box;
     }
     tr{
         height: 60px;
         border-bottom: 1px lightgray solid;
-        box-sizing: border-box;
+        /*box-sizing: border-box;*/
+        margin: 0;
+    }
+    td{
+        height: 60px;
     }
     thead{
         height: 1px;
@@ -42,6 +46,7 @@
         height: 50px;
         /*border: 1px solid;*/
         font-size: 25px;
+
     }
     .resultrow{
         width: 400px;
@@ -118,7 +123,7 @@
     <div id="search-header">검색결과</div>
     <div id="filter">
         <span class="filter_button">진료과목</span>
-        <span class="filter_button">진료중</span>
+        <span class="filter_button" style="background: white">진료중</span>
         <span class="filter_button">평일</span>
     </div>
     <div id="modal">
@@ -140,11 +145,10 @@
     </div>
    <div>
         <table>
-            <thead>
-            <tr></tr>
-            </thead>
-                <tr th:each="hospitalVO:${hlist}">
-                    <td>
+            <tbody id="tbody">
+            <tr th:each="hospitalVO:${hlist}" class="row">
+                <td>
+                    <div class="resultrow">
                         <div class="rheader" th:text="${hospitalVO.hospital_name}"></div>
                         <div class="time">
                             <span class="info">진료시간: </span>
@@ -154,9 +158,11 @@
                         </div>
                         <div class="info" th:text="${hospitalVO.hospital_addr}"></div>
                         <div class="info" th:text="${hospitalVO.hospital_tel}"></div>
-                    </td>
+                    </div>
+                </td>
 
-                </tr>
+            </tr>
+            </tbody>
 
 <!--            <tr>-->
 <!--                <td>-->
@@ -230,10 +236,10 @@
     subButton.addEventListener("click",subSelect);
         // console.log(day.innerText);
         // console.log(day.firstChild.innerText);
-
+    let tbody=document.getElementById("tbody");
     //html에서 받은 병원리스트
     let hospitalList=[];
-    let Mod_hospitalList=[];
+    // let Mod_hospitalList=[];
     [# th:each='hospitalVO, stat:${hlist}']
     let hospital[[${stat.count}]]=[[${hospitalVO}]];
     hospitalList.push(hospital[[${stat.count}]]);
@@ -251,13 +257,63 @@
     let JSON_hospitalList={
         "hospitalList":JSON.stringify(hospitalList)
     };
+    let resultrow=document.getElementsByClassName("resultrow");
+    console.log(JSON_hospitalList);
+    console.log(hospitalList);
 
     //진료요일 변경
     function changeday() {
+        tbody.innerHTML="";
         if (dayButton.innerText === "평일") {
             dayButton.innerText = "주말";
+            $.ajax({
+                type:"POST",
+                url:"filter?type=date",
+                data:JSON_hospitalList,
+                success:function (data) {
+                    // alert(data);
+
+                    // console.log(data[0].hospital_name);
+                    let row=document.getElementsByClassName("row");
+
+
+                    // alert(data.length+"건 검색");
+                    for(let i=0;i<data.length;i++){
+                        // resultrow[i].innerHTML="";
+                        // console.log(data[i].hospital_name);
+                        tbody.innerHTML+="<tr><td><div class=resultrow></div></td></tr>";
+                        resultrow[i].innerHTML=
+                        `<div class="rheader" >${data[i].hospital_name}(변경)</div>
+                            <div class="time">
+                                <span class="info">진료시간: ${data[i].hospital_time}</span>
+                                <span class="info" > </span>
+                                <span>|</span>
+                                <span class="info" >내과</span>
+                            </div>
+                            <div class="info" >${data[i].hospital_addr}</div>
+                            <div class="info" >${data[i].hospital_tel}</div>`
+                    }
+                },
+                error:function(data){
+                    alert("실패");
+                }
+            })
         } else {
             dayButton.innerText = "평일";
+            // tbody.innerHTML="";
+            for(let i=0;i<hospitalList.length;i++){
+                tbody.innerHTML+="<tr><td><div class=resultrow></div></td></tr>";
+                resultrow[i].innerHTML=
+                    `<div class="rheader" >${hospitalList[i].hospital_name}(다시 변경)</div>
+                    <div class="time">
+                        <span class="info">진료시간: ${hospitalList[i].hospital_time}</span>
+                        <span class="info" > </span>
+                        <span>|</span>
+                        <span class="info" >내과</span>
+                    </div>
+                    <div class="info" >${hospitalList[i].hospital_addr}</div>
+                    <div class="info" >${hospitalList[i].hospital_tel}</div>`;
+            }
         }
     }
     //진료과목 클릭시 모달창
@@ -295,13 +351,52 @@
     let ing=document.getElementsByClassName("filter_button")[1];
     ing.addEventListener("click",changeColor);
     function changeColor(){
+        tbody.innerHTML="";
         if(ing.style.background === "white"){
             ing.style.background="#3B82F6";
+            $.ajax({
+                type: "POST",
+                url: "filter?type=ing",
+                data: JSON_hospitalList,
+                success: function (data) {
+                    // alert("성공");
+                    for(let i=0;i<data.length;i++){
+                        tbody.innerHTML+="<tr><td><div class=resultrow></div></td></tr>";
+                        resultrow[i].innerHTML=
+                            `<div class="rheader" >${data[i].hospital_name}(변경)</div>
+                            <div class="time">
+                                <span class="info">진료시간: ${data[i].hospital_time}</span>
+                                <span class="info" > </span>
+                                <span>|</span>
+                                <span class="info" >내과</span>
+                            </div>
+                            <div class="info" >${data[i].hospital_addr}</div>
+                            <div class="info" >${data[i].hospital_tel}</div>`
+                    }
+                },
+                error: function (data) {
+
+                    alert("실패");
+                }
+            })
         }else{
             ing.style.background="white";
+            for(let i=0;i<hospitalList.length;i++){
+                tbody.innerHTML+="<tr><td><div class=resultrow></div></td></tr>";
+                resultrow[i].innerHTML=
+                    `<div class="rheader" >${hospitalList[i].hospital_name}(다시 변경)</div>
+                    <div class="time">
+                        <span class="info">진료시간: ${hospitalList[i].hospital_time}</span>
+                        <span class="info" > </span>
+                        <span>|</span>
+                        <span class="info" >내과</span>
+                    </div>
+                    <div class="info" >${hospitalList[i].hospital_addr}</div>
+                    <div class="info" >${hospitalList[i].hospital_tel}</div>`;
+            }
         }
-
     }
+
 
 
 </script>

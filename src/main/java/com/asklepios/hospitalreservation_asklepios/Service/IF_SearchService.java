@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface IF_SearchService {
     public List<HospitalVO> searchHospital(String name);
+    public List<HospitalVO> filterDate(List<HospitalVO> modHospitalList);
+    public List<HospitalVO> filterIng(List<HospitalVO> modHospitalList);
 }
