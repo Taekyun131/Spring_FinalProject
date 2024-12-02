@@ -121,11 +121,11 @@ a {
 
 .top-bar__menu-box-1 {
     text-align: center;
-    margin-top: 100px;
+    margin-top: 60px;
 }
 
 .top-bar__menu-box-1 ul {
-    background-color: #3c712f;
+    background-color: #3B82F6;
     color: white;
 }
 
@@ -252,7 +252,7 @@ section{
 #search-input{
     width: 400px;
     height: 40px;
-    border: 2px solid #3c712f;
+    border: 2px solid #3B82F6;
     border-radius: 10px;
     padding-left: 10px;
 }
@@ -266,7 +266,7 @@ section{
     width: 100px;
     height: 40px;
     border-radius: 5px;
-    background: #3c712f;
+    background: #3B82F6;
     color: white;
 }
 #search-header{

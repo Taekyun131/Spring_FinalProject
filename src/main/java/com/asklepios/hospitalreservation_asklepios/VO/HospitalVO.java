@@ -8,7 +8,7 @@ public class HospitalVO {
     private String hospital_intro;
     private String hospital_notice;
     private String hospital_time;
-    private Integer hospital_date;
-    private String hospital_address;
+    private String hospital_date;
+    private String hospital_addr;
     private String hospital_tel;
 }

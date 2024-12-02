@@ -1,3 +1,4 @@
+
 <html xmlns:th="http://www.thymeleaf.org">
 <!DOCTYPE html>
 <html lang="en">
@@ -9,11 +10,7 @@
             crossorigin="anonymous"
     ></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script
-            src="https://code.jquery.com/jquery-3.7.1.min.js"
-            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-            crossorigin="anonymous"
-    ></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 <link rel="stylesheet" href="home.css" />
 <style>
@@ -31,13 +28,17 @@
         height: 800px;
         box-sizing: border-box;
     }
-    tr,thead{
+    tr{
         height: 60px;
         border-bottom: 1px lightgray solid;
         box-sizing: border-box;
     }
+    thead{
+        height: 1px;
+        border-bottom: 1px lightgray solid;
+    }
     .rheader{
-        width: 300px;
+        width: 400px;
         height: 50px;
         /*border: 1px solid;*/
         font-size: 25px;
@@ -65,6 +66,7 @@
         height: 40px;
         color: black;
         font-size: 20px;
+        margin-right: 15px;
     }
     .info{
         font-size: 20px;
@@ -141,58 +143,73 @@
             <thead>
             <tr></tr>
             </thead>
-            <tr>
-                <td>
-                    <div class="resultrow">
-                        <div class="rheader"><a href="#">연세바다소아청소년의원</a></div>
+                <tr th:each="hospitalVO:${hlist}">
+                    <td>
+                        <div class="rheader" th:text="${hospitalVO.hospital_name}"></div>
                         <div class="time">
-                            <span class="info">진료시간: 0900-1800 |</span>
-                            <span class="info">내과</span>
+                            <span class="info">진료시간: </span>
+                            <span class="info" th:text="${hospitalVO.hospital_time}"> </span>
+                            <span>|</span>
+                            <span class="info" th:text="내과"></span>
                         </div>
-                        <div class="info">수원시 영통구</div>
-                        <div class="info">010-1234-1234</div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="resultrow">
-                        <div class="rheader"><a href="#">연세바다소아청소년의원</a></div>
-                        <div class="time">
-                            <span class="info">진료시간: 0900-1800 |</span>
-                            <span class="info">내과</span>
-                        </div>
-                        <div class="info">수원시 영통구</div>
-                        <div class="info">010-1234-1234</div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="resultrow">
-                        <div class="rheader"><a href="#">연세바다소아청소년의원</a></div>
-                        <div class="time">
-                            <span class="info">진료시간: 0900-1800 |</span>
-                            <span class="info">내과</span>
-                        </div>
-                        <div class="info">수원시 영통구</div>
-                        <div class="info">010-1234-1234</div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="resultrow">
-                        <div class="rheader"><a href="#">연세바다소아청소년의원</a></div>
-                        <div class="time">
-                            <span class="info">진료시간: 0900-1800 |</span>
-                            <span class="info">내과</span>
-                        </div>
-                        <div class="info">수원시 영통구</div>
-                        <div class="info">010-1234-1234</div>
-                    </div>
-                </td>
-            </tr>
+                        <div class="info" th:text="${hospitalVO.hospital_addr}"></div>
+                        <div class="info" th:text="${hospitalVO.hospital_tel}"></div>
+                    </td>
+
+                </tr>
+
+<!--            <tr>-->
+<!--                <td>-->
+<!--                    <div class="resultrow">-->
+<!--                        <div class="rheader"><a href="#">연세바다소아청소년의원</a></div>-->
+<!--                        <div class="time">-->
+<!--                            <span class="info">진료시간: 0900-1800 |</span>-->
+<!--                            <span class="info">내과</span>-->
+<!--                        </div>-->
+<!--                        <div class="info">수원시 영통구</div>-->
+<!--                        <div class="info">010-1234-1234</div>-->
+<!--                    </div>-->
+<!--                </td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <td>-->
+<!--                    <div class="resultrow">-->
+<!--                        <div class="rheader"><a href="#">연세바다소아청소년의원</a></div>-->
+<!--                        <div class="time">-->
+<!--                            <span class="info">진료시간: 0900-1800 |</span>-->
+<!--                            <span class="info">내과</span>-->
+<!--                        </div>-->
+<!--                        <div class="info">수원시 영통구</div>-->
+<!--                        <div class="info">010-1234-1234</div>-->
+<!--                    </div>-->
+<!--                </td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <td>-->
+<!--                    <div class="resultrow">-->
+<!--                        <div class="rheader"><a href="#">연세바다소아청소년의원</a></div>-->
+<!--                        <div class="time">-->
+<!--                            <span class="info">진료시간: 0900-1800 |</span>-->
+<!--                            <span class="info">내과</span>-->
+<!--                        </div>-->
+<!--                        <div class="info">수원시 영통구</div>-->
+<!--                        <div class="info">010-1234-1234</div>-->
+<!--                    </div>-->
+<!--                </td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <td>-->
+<!--                    <div class="resultrow">-->
+<!--                        <div class="rheader"><a href="#">연세바다소아청소년의원</a></div>-->
+<!--                        <div class="time">-->
+<!--                            <span class="info">진료시간: 0900-1800 |</span>-->
+<!--                            <span class="info">내과</span>-->
+<!--                        </div>-->
+<!--                        <div class="info">수원시 영통구</div>-->
+<!--                        <div class="info">010-1234-1234</div>-->
+<!--                    </div>-->
+<!--                </td>-->
+<!--            </tr>-->
         </table>
    </div>
 
@@ -206,13 +223,31 @@
 </footer>
 </body>
 </html>
-<script>
+<script th:inline="javascript">
     let subButton=document.getElementsByClassName("filter_button")[0];
     let dayButton=document.getElementsByClassName("filter_button")[2];
     dayButton.addEventListener("click",changeday);
     subButton.addEventListener("click",subSelect);
         // console.log(day.innerText);
         // console.log(day.firstChild.innerText);
+
+    //html에서 받은 병원리스트
+    let hospitalList=[];
+    let Mod_hospitalList=[];
+    [# th:each='hospitalVO, stat:${hlist}']
+    let hospital[[${stat.count}]]=[[${hospitalVO}]];
+    hospitalList.push(hospital[[${stat.count}]]);
+    [/]
+    for(let i=0;i<hospitalList.length;i++){
+        console.log(JSON.stringify(hospitalList[i]));
+    }
+    for(let i=0;i<hospitalList.length;i++){
+        if(hospitalList[i].hospital_date==="y"){
+            Mod_hospitalList.push(hospitalList[i]);
+        }
+    }
+    console.log(Mod_hospitalList);
+
 
     //진료요일 변경
     function changeday() {
@@ -263,8 +298,9 @@
             ing.style.background="white";
         }
 
-
     }
+
+
 </script>
 
 
