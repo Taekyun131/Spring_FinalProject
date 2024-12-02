@@ -27,4 +27,8 @@ public class LikeController {
      return likeService.checkLike(likeVO);
 //        return map;
     }
+    @PostMapping("/likecheck")
+    public boolean likecheck(@RequestBody LikeVO likeVO) {
+        return likeService.firstLike(likeVO);
+    }
 }

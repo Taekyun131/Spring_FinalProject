@@ -379,7 +379,10 @@
                 <tr><td class="header">Content</td></tr>
                 <tr><td colspan="2"><textarea name="board_content" th:text="${boardVO.getBoard_content()}" readonly></textarea></td></tr>
                 <tr><td class="header">첨부파일</td></tr>
-                <tr><td><input type="text" name="board_binary" th:value="${boardVO.board_binary}" readonly></td></tr>
+                <tr>
+                    <td><input type="text" name="board_binary" th:value="${boardVO.board_binary}" readonly></td>
+                    <td><span id="heart"></span></td>
+                </tr>
                 <tr>
                     <td><input type="hidden" th:value="${boardVO.board_user_id}" name="board_user_id"></td>
                     <td><input type="hidden" th:value="${boardVO.board_viewcount}" name="board_viewcount"></td>
@@ -402,7 +405,7 @@
         </form>
         <table>
             <tr>
-                <td><button  id="like" onclick="test()" style="width: 80px;height: 30px"><i class="fa-solid fa-heart"></i></button></td>
+<!--                <td><span id="heart"><i class="fa-solid fa-heart"></i></span></td>-->
                 <!--                <td><button th:if="isliked" id="like" onclick="test()" style="width: 80px;height: 30px"><i class="fa-solid fa-heart"></i></button></td>-->
             </tr>
         </table>
@@ -434,7 +437,8 @@
 
     };
 
-    let like=document.getElementById("like");
+    let heart=document.getElementById("heart");
+    heart.addEventListener("click",test);
     function test(){
         // console.log(likevo);
         $.ajax({
@@ -447,9 +451,11 @@
                 // console.log(data);
                 if(data){
                     alert("좋아요 취소");
+                    heart.innerHTML=`<img width="50" height="50" src="https://img.icons8.com/ios/50/hearts--v1.png" alt="hearts--v1"/>`
                     return false;
                 }else{
                     alert("좋아요");
+                    heart.innerHTML=`<img width="48" height="48" src="https://img.icons8.com/color/48/hearts.png" alt="hearts"/>`;
                     return true;
                 }
             },
@@ -460,5 +466,28 @@
         })
 
     }
+    window.onload=heartCheck();
+
+    function heartCheck(){
+        $.ajax({
+            url:"likecheck",
+            type:"post",
+            data:JSON.stringify(likevo),
+            dataType: "json",
+            contentType:"application/json",
+            success:function (data){
+                // console.log(data);
+                if(data){
+                    heart.innerHTML=`<img width="48" height="48" src="https://img.icons8.com/color/48/hearts.png" alt="hearts"/>`;
+                }else{
+                    heart.innerHTML=`<img width="50" height="50" src="https://img.icons8.com/ios/50/hearts--v1.png" alt="hearts--v1"/>`
+                }
+            },
+            error:function (errorThrown){
+                alert(errorThrown.statusText);
+            }
+        })
+    }
+
 
 </script>

@@ -22,4 +22,12 @@ public class LikeService {
         }
        return flag;
     }
+    public boolean firstLike(LikeVO likeVO){
+        int check=boardMapper.checkLike(likeVO);
+        boolean flag =false;
+        if(check==1) {
+            flag=true;
+        }
+        return flag;
+    }
 }

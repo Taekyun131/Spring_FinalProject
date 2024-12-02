@@ -39,7 +39,7 @@
     .rheader{
         width: 300px;
         height: 50px;
-        border: 1px solid;
+        /*border: 1px solid;*/
         font-size: 25px;
     }
     .resultrow{
@@ -68,6 +68,7 @@
     }
     .info{
         font-size: 20px;
+        color: #555555;
     }
     #modal{
         margin-left:150px;
@@ -75,13 +76,13 @@
         position: absolute;
         width: 600px;
         height: 800px;
-        border: 1px solid;
+        /*border: 1px solid;*/
         border-radius: 30px;
         display:none;
     }
     #modalheader{
-        margin: 0;
-        border: 1px solid;
+        margin: 0 0 30px;
+        /*border: 1px solid;*/
         border-top-left-radius: 30px;
         border-top-right-radius: 30px;
         font-size: 30px;
@@ -90,12 +91,20 @@
     .subject{
         width: 550px;
         height: 50px;
-        border: 1px solid;
+        border: 1px solid #666666;
         border-radius: 10px;
         font-size: 20px;
         text-align: center;
         margin-top: 10px;
         margin-left: 20px;
+    }
+    .subject:hover{
+        background: #3B82F6;
+    }
+    #closebutton{
+        float: right;
+        margin-right: 40px;
+        margin-top: 20px;
     }
 </style>
 <body>
@@ -109,6 +118,23 @@
         <span class="filter_button">진료과목</span>
         <span class="filter_button">진료중</span>
         <span class="filter_button">평일</span>
+    </div>
+    <div id="modal">
+        <div id="modalheader">
+            진료과목 선택
+        </div>
+        <div class="subject">내과</div>
+        <div class="subject">이비인후과</div>
+        <div class="subject">정형외과</div>
+        <div class="subject">성형외과</div>
+        <div class="subject">정신건강의학과</div>
+        <div class="subject">피부과</div>
+        <div class="subject">안과</div>
+        <div class="subject">소아청소년과</div>
+        <div class="subject">산부인과</div>
+        <div class="subject">비뇨기과</div>
+        <div class="subject">외과</div>
+        <div id="closebutton"><img width="48" height="48" src="https://img.icons8.com/pulsar-line/48/close-window.png" alt="close-window"/></div>
     </div>
    <div>
         <table>
@@ -169,22 +195,7 @@
             </tr>
         </table>
    </div>
-    <div id="modal">
-        <div id="modalheader">
-            진료과목 선택
-        </div>
-        <div class="subject">내과</div>
-        <div class="subject">이비인후과</div>
-        <div class="subject">정형외과</div>
-        <div class="subject">성형외과</div>
-        <div class="subject">정신건강의학과</div>
-        <div class="subject">피부과</div>
-        <div class="subject">안과</div>
-        <div class="subject">소아청소년과</div>
-        <div class="subject">산부인과</div>
-        <div class="subject">비뇨기과</div>
-        <div class="subject">외과</div>
-    </div>
+
 </section>
 <aside id="aside2"></aside>
 <footer id="ad">
@@ -202,6 +213,8 @@
     subButton.addEventListener("click",subSelect);
         // console.log(day.innerText);
         // console.log(day.firstChild.innerText);
+
+    //진료요일 변경
     function changeday() {
         if (dayButton.innerText === "평일") {
             dayButton.innerText = "주말";
@@ -220,7 +233,6 @@
     let subjects=document.getElementsByClassName("subject");
     //진료과목 리스너 등록
     for(let i=0;i<subjects.length;i++){
-
         subjects[i].addEventListener("click",()=>{
             const selSub=subjects[i].innerText;
             selectSubject(selSub);
@@ -232,10 +244,27 @@
         let body=document.querySelector("body");
         body.style.background="white";
         modal.style.display="none";
-        console.log(selSub);
+        if(selSub!=null){
+            alert(selSub);
+        }
+    }
+    //닫기버튼
+    let close=document.getElementById("closebutton");
+    close.addEventListener("click",()=>{
+        selectSubject();
+    })
+    //진료중 선택
+    let ing=document.getElementsByClassName("filter_button")[1];
+    ing.addEventListener("click",changeColor);
+    function changeColor(){
+        if(ing.style.background === "white"){
+            ing.style.background="#3B82F6";
+        }else{
+            ing.style.background="white";
+        }
+
 
     }
-
 </script>
 
 
