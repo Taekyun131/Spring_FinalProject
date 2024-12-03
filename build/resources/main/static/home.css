@@ -31,7 +31,7 @@ header{
 }
 body{
     width: 1920px;
-    height: 1600px;
+    /*height: 1600px;*/
     border: 1px solid;
 }
 
@@ -46,7 +46,7 @@ body{
 section{
     margin-left: 50px;
     width: 1000px;
-    height: 1200px;
+    /*height: 1200px;*/
     border: 1px solid;
     float: left;
     margin-top: 10px;

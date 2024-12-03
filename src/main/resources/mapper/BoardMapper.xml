@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.asklepios.hospitalreservation_asklepios.Repository.IF_BoardMapper">
     <insert id="insertOne" parameterType="com.asklepios.hospitalreservation_asklepios.VO.BoardVO" >
-        insert into testboard values(nextval(board_sequence),#{board_user_id},#{board_category},#{board_title},#{board_content},#{board_binary},default,default,default)
+        insert into testboard (board_sequence, board_user_id, board_category, board_title, board_content, board_viewcount,board_date,board_goodcount) values(nextval(board_sequence),#{board_user_id},#{board_category},#{board_title},#{board_content},default,default,default)
     </insert>
     <select id="selectNotice" resultType="com.asklepios.hospitalreservation_asklepios.VO.BoardVO">
         select * from testboard where board_category='공지사항'
@@ -31,7 +31,7 @@
         select * from testboard where board_sequence=#{board_sequence}
     </select>
     <update id="updateBoard" parameterType="com.asklepios.hospitalreservation_asklepios.VO.BoardVO" >
-        update testboard set board_category=#{board_category}, board_title=#{board_title},board_content=#{board_content},board_binary=#{board_binary} where board_sequence=#{board_sequence}
+        update testboard set board_category=#{board_category}, board_title=#{board_title},board_content=#{board_content} where board_sequence=#{board_sequence}
     </update>
     <update id="plusViewCount" >
         update testboard set board_viewcount=#{board_viewcount} where board_sequence=#{board_sequence}

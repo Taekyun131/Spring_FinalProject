@@ -14,6 +14,7 @@
 </head>
 <link rel="stylesheet" href="home.css" />
 <style>
+
     #search-header{
         margin-top: 50px;
         /*margin-left: 80px;*/
@@ -42,11 +43,11 @@
         border-bottom: 1px lightgray solid;
     }
     .rheader{
-        width: 400px;
-        height: 50px;
-        /*border: 1px solid;*/
-        font-size: 25px;
-
+      width: 400px;
+      height: 50px;
+      /*border: 1px solid;*/
+      font-size: 25px;
+      cursor: pointer;
     }
     .resultrow{
         width: 400px;
@@ -78,9 +79,11 @@
         color: #555555;
     }
     #modal{
+      position: sticky;
+      top: 0;
         margin-left:150px;
         margin-top: 50px;
-        position: absolute;
+
         width: 600px;
         height: 800px;
         /*border: 1px solid;*/
@@ -102,17 +105,68 @@
         border-radius: 10px;
         font-size: 20px;
         text-align: center;
-        margin-top: 10px;
+        margin-top: 15px;
         margin-left: 20px;
     }
     .subject:hover{
-        background: #3B82F6;
+      background: #84b6ff;
     }
-    #closebutton{
+    #closebutton,#closebutton2{
         float: right;
         margin-right: 40px;
         margin-top: 20px;
     }
+    #modalInfo::-webkit-scrollbar {
+      width: 10px;
+    }
+    #modalInfo::-webkit-scrollbar-thumb {
+      background-color: #2f3542;
+      border-radius: 10px;
+      background-clip: padding-box;
+      border: 2px solid transparent;
+    }
+    #modalInfo::-webkit-scrollbar-track {
+      background-color: grey;
+      border-radius: 10px;
+      box-shadow: inset 0 0 5px white;
+    }
+    #modalInfo{
+      position: fixed;
+      top: 150px;
+      display: none;
+      margin-left: 200px;
+      width: 650px;
+      height: 700px;
+      border: 1px solid;
+      overflow: auto;
+      border-radius:30px ;
+
+    }
+    #infoHeader{
+      margin: 0;
+      border: 1px solid;
+      width: 100%;
+      height: 70px;
+      text-align: center;
+      font-size: 30px;
+      border-top-left-radius:30px ;
+      border-top-right-radius:30px ;
+    }
+  #infoIntro,#infoNotice{
+    width: 500px;
+    font-size: 15px;
+    text-align: left;
+    margin-left: 50px;
+  }
+  .infoTitle{
+    width: 500px;
+    margin-top: 20px;
+    margin-left: 50px;
+    text-align: left;
+    font-size: 15px;
+    color: #666666;
+    /*border: 1px solid;*/
+  }
 </style>
 <body>
 <div style="position: fixed" th:replace="include/topinclude"></div>
@@ -129,6 +183,9 @@
     <div id="modal">
         <div id="modalheader">
             진료과목 선택
+          <div id="closebutton">
+            <img width="48" height="48" src="https://img.icons8.com/pulsar-line/48/close-window.png" alt="close-window"/>
+          </div>
         </div>
         <div class="subject">내과</div>
         <div class="subject">이비인후과</div>
@@ -141,28 +198,28 @@
         <div class="subject">산부인과</div>
         <div class="subject">비뇨기과</div>
         <div class="subject">외과</div>
-        <div id="closebutton"><img width="48" height="48" src="https://img.icons8.com/pulsar-line/48/close-window.png" alt="close-window"/></div>
     </div>
+
    <div>
-        <table>
-            <tbody id="tbody">
-            <tr th:each="hospitalVO:${hlist}" class="row">
-                <td>
-                    <div class="resultrow">
-                        <div class="rheader" th:text="${hospitalVO.hospital_name}"></div>
-                        <div class="time">
-                            <span class="info">진료시간: </span>
-                            <span class="info" th:text="${hospitalVO.hospital_time}"> </span>
-                            <span>|</span>
-                            <span class="info" th:text="내과"></span>
-                        </div>
-                        <div class="info" th:text="${hospitalVO.hospital_addr}"></div>
-                        <div class="info" th:text="${hospitalVO.hospital_tel}"></div>
-                    </div>
-                </td>
+      <table>
+          <tbody id="tbody">
+          <tr th:each="hospitalVO:${hlist}" class="row">
+              <td>
+                  <div class="resultrow">
+                      <div class="rheader" th:text="${hospitalVO.hospital_name}"></div>
+                      <div class="time">
+                          <span class="info">진료시간: </span>
+                          <span class="info" th:text="${hospitalVO.hospital_time}"> </span>
+                          <span>|</span>
+                          <span class="info" th:text="내과"></span>
+                      </div>
+                      <div class="info" th:text="${hospitalVO.hospital_addr}"></div>
+                      <div class="info" th:text="${hospitalVO.hospital_tel}"></div>
+                  </div>
+              </td>
 
-            </tr>
-            </tbody>
+          </tr>
+          </tbody>
 
 <!--            <tr>-->
 <!--                <td>-->
@@ -216,9 +273,41 @@
 <!--                    </div>-->
 <!--                </td>-->
 <!--            </tr>-->
-        </table>
+      </table>
    </div>
-
+  <div id="modalInfo">
+    <div id="infoHeader">
+      <span id="hospitalName"></span>
+      <div id="closebutton2"><img width="48" height="48" src="https://img.icons8.com/pulsar-line/48/close-window.png" alt="close-window"/></div>
+      <div>
+        <table>
+          <tbody id="infoTable">
+          <tr  class="row">
+            <td>
+              <div class="resultrow">
+                <div class="rheader" id="clickhospitalname" ></div>
+                <div class="time">
+                  <span class="info" >진료시간: </span>
+                  <span class="info" id="clickhospitaltime"> </span>
+                  <span>|</span>
+                  <span class="info" id="clickhospitalsubject" ></span>
+                </div>
+                <div class="info" id="clickhospitaladdr"></div>
+                <div class="info" id="clickhospitaltel"></div>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div>
+          <div class="infoTitle">소개</div>
+          <div id="infoIntro"></div>
+          <div class="infoTitle">공지사항</div>
+          <div id="infoNotice"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 <aside id="aside2"></aside>
 <footer id="ad">
@@ -237,13 +326,14 @@
         // console.log(day.innerText);
         // console.log(day.firstChild.innerText);
     let tbody=document.getElementById("tbody");
-    //html에서 받은 병원리스트
+    //렌더링 시 받은 병원리스트
     let hospitalList=[];
-    // let Mod_hospitalList=[];
+    let Mod_hospitalList=[];
     [# th:each='hospitalVO, stat:${hlist}']
     let hospital[[${stat.count}]]=[[${hospitalVO}]];
     hospitalList.push(hospital[[${stat.count}]]);
     [/]
+        Mod_hospitalList=hospitalList;
     // for(let i=0;i<hospitalList.length;i++){
     //     console.log(JSON.stringify(hospitalList[i]));
     // }
@@ -257,6 +347,7 @@
     let JSON_hospitalList={
         "hospitalList":JSON.stringify(hospitalList)
     };
+
     let resultrow=document.getElementsByClassName("resultrow");
     console.log(JSON_hospitalList);
     console.log(hospitalList);
@@ -272,18 +363,15 @@
                 data:JSON_hospitalList,
                 success:function (data) {
                     // alert(data);
-
                     // console.log(data[0].hospital_name);
                     let row=document.getElementsByClassName("row");
-
-
                     // alert(data.length+"건 검색");
                     for(let i=0;i<data.length;i++){
                         // resultrow[i].innerHTML="";
                         // console.log(data[i].hospital_name);
                         tbody.innerHTML+="<tr><td><div class=resultrow></div></td></tr>";
                         resultrow[i].innerHTML=
-                        `<div class="rheader" >${data[i].hospital_name}(변경)</div>
+                        `<div class="rheader" >${data[i].hospital_name}</div>
                             <div class="time">
                                 <span class="info">진료시간: ${data[i].hospital_time}</span>
                                 <span class="info" > </span>
@@ -293,6 +381,7 @@
                             <div class="info" >${data[i].hospital_addr}</div>
                             <div class="info" >${data[i].hospital_tel}</div>`
                     }
+                  addEvent();
                 },
                 error:function(data){
                     alert("실패");
@@ -302,9 +391,9 @@
             dayButton.innerText = "평일";
             // tbody.innerHTML="";
             for(let i=0;i<hospitalList.length;i++){
-                tbody.innerHTML+="<tr><td><div class=resultrow></div></td></tr>";
+                tbody.innerHTML+="<tr class=row><td><div class=resultrow ></div></td></tr>";
                 resultrow[i].innerHTML=
-                    `<div class="rheader" >${hospitalList[i].hospital_name}(다시 변경)</div>
+                    `<div class="rheader" >${hospitalList[i].hospital_name}</div>
                     <div class="time">
                         <span class="info">진료시간: ${hospitalList[i].hospital_time}</span>
                         <span class="info" > </span>
@@ -313,7 +402,9 @@
                     </div>
                     <div class="info" >${hospitalList[i].hospital_addr}</div>
                     <div class="info" >${hospitalList[i].hospital_tel}</div>`;
+
             }
+          addEvent();
         }
     }
     //진료과목 클릭시 모달창
@@ -363,7 +454,7 @@
                     for(let i=0;i<data.length;i++){
                         tbody.innerHTML+="<tr><td><div class=resultrow></div></td></tr>";
                         resultrow[i].innerHTML=
-                            `<div class="rheader" >${data[i].hospital_name}(변경)</div>
+                            `<div class="rheader" >${data[i].hospital_name}</div>
                             <div class="time">
                                 <span class="info">진료시간: ${data[i].hospital_time}</span>
                                 <span class="info" > </span>
@@ -373,6 +464,7 @@
                             <div class="info" >${data[i].hospital_addr}</div>
                             <div class="info" >${data[i].hospital_tel}</div>`
                     }
+                    addEvent();
                 },
                 error: function (data) {
 
@@ -384,7 +476,7 @@
             for(let i=0;i<hospitalList.length;i++){
                 tbody.innerHTML+="<tr><td><div class=resultrow></div></td></tr>";
                 resultrow[i].innerHTML=
-                    `<div class="rheader" >${hospitalList[i].hospital_name}(다시 변경)</div>
+                    `<div class="rheader" >${hospitalList[i].hospital_name}</div>
                     <div class="time">
                         <span class="info">진료시간: ${hospitalList[i].hospital_time}</span>
                         <span class="info" > </span>
@@ -394,10 +486,61 @@
                     <div class="info" >${hospitalList[i].hospital_addr}</div>
                     <div class="info" >${hospitalList[i].hospital_tel}</div>`;
             }
+            addEvent();
         }
     }
 
+    //병원이름 클릭 이벤트 등록
+    function addEvent(){
+      let hospitalTitle=document.getElementsByClassName("rheader");
+      for(let i=0;i<hospitalTitle.length;i++){
+        hospitalTitle[i].addEventListener("click",()=>{
+          showInfo(hospitalTitle[i].innerText);
+        })
+      }
+    }
+    addEvent();
+    let modalInfo=document.getElementById("modalInfo");
+    let hospitalname=document.getElementById("hospitalName");
+    let closeButton2=document.getElementById("closebutton2");
+    //병원정보모달 닫기
+    closeButton2.addEventListener("click",()=>{
+      modalInfo.style.display="none";
+      document.body.style.backgroundColor="white";
+    })
+    //병원이름 클릭시 병원정보모달
+    function showInfo(title){
+      let clickHospital=findHospital(title);
+      if(clickHospital == null){
+        alert(title+"을/를 찾지못했습니다")
+      }else{
+        console.log(clickHospital);
+        document.getElementById("clickhospitalname").innerText=clickHospital.hospital_name;
+        document.getElementById("clickhospitaltime").innerText=clickHospital.hospital_time;
+        document.getElementById("clickhospitalsubject").innerText="내과";
+        document.getElementById("clickhospitaladdr").innerText=clickHospital.hospital_addr;
+        document.getElementById("clickhospitaltel").innerText=clickHospital.hospital_tel;
+        document.getElementById("infoIntro").innerText=clickHospital.hospital_intro;
+        document.getElementById("infoNotice").innerText=clickHospital.hospital_notice;
+      }
+      document.body.style.backgroundColor="gray";
+      modalInfo.style.backgroundColor="white";
+      modalInfo.style.display="flex";
+      hospitalname.innerText="상세정보";
 
+    }
+
+
+    //병원이름으로 배열에서 병원정보 가져오기
+    function findHospital(title){
+      let hospitalVO;
+     hospitalList.forEach(hospital => {
+       if(hospital.hospital_name === title){
+         hospitalVO=hospital;
+       }
+     })
+      return hospitalVO;
+    }
 
 </script>
 

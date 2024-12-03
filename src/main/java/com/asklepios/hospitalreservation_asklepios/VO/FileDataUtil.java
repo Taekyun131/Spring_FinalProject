@@ -1,40 +1,60 @@
-//package com.asklepios.hospitalreservation_asklepios.VO;
-//
-//import jakarta.annotation.Resource;
-//import jakarta.servlet.http.HttpServletResponse;
-//
-//import org.springframework.core.io.FileSystemResource;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RequestMethod;
-//import org.springframework.web.bind.annotation.RequestParam;
-//import org.springframework.web.bind.annotation.ResponseBody;
-//
-//import java.io.File;
-//import java.util.ArrayList;
-//
-//@Controller
-//public class FileDataUtil {
-//    private ArrayList<String>extNameArray=new ArrayList<>();
-//    @Resource
-//    private String uploadPath;
-//
-//    public String getUploadPath() {
-//        return uploadPath;
-//    }
-//    public void setUploadPath(String uploadPath) {
-//        this.uploadPath = uploadPath;
-//    }
-//
-//    @RequestMapping(value="/download",method= RequestMethod.GET)
-//    @ResponseBody
-//    public FileSystemResource fileDownload(@RequestParam("filename")String fileName, HttpServletResponse response){
-//        File file=new File(uploadPath+"/"+fileName);
-//        response.setContentType("application/download;charset=UTF-8");
-//        response.setHeader("Content-Disposition","attachment;filename="+fileName);
-//        return new FileSystemResource(file);
-//    }
-//
-//
-//
-//}
+package com.asklepios.hospitalreservation_asklepios.VO;
+
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
+
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.UUID;
+
+@Controller
+public class FileDataUtil {
+    private ArrayList<String>extNameArray=new ArrayList<>();
+    private String uploadPath;
+  @Value("$uploadPath")
+  public void setUploadPath(String uploadPath) {
+    this.uploadPath = uploadPath;
+  }
+  public String getUploadPath() {
+      return uploadPath;
+    }
+  @RequestMapping(value="/download",method= RequestMethod.GET)
+    @ResponseBody
+    public FileSystemResource fileDownload(@RequestParam("filename")String fileName, HttpServletResponse response){
+        File file=new File(uploadPath+"/"+fileName);
+        response.setContentType("application/download;charset=UTF-8");
+        response.setHeader("Content-Disposition","attachment;filename="+fileName);
+        return new FileSystemResource(file);
+    }
+  public String [] fileUpload(MultipartFile[] file) throws IOException {
+      String [] files = new String[file.length];
+      for(int i=0;i<file.length;i++){
+        if(!Objects.equals(file[i].getOriginalFilename(), "")){
+          String origianlName=file[i].getOriginalFilename();
+          UUID uid= UUID.randomUUID();
+          String saveName=uid.toString()+"."+origianlName.split("\\.")[1];
+          files=new String []{saveName};
+          byte[]fileData=file[i].getBytes();
+          File target=new File(uploadPath,saveName);
+          FileCopyUtils.copy(fileData,target);
+          files[i]=saveName;
+        }
+      }
+      return files;
+  }
+
+
+}
