@@ -1,23 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
+  <script
+      src="https://kit.fontawesome.com/68dda164c0.js"
+      crossorigin="anonymous"
+  ></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
-<link rel="stylesheet" href="boardmain.css" />
-<script
-        src="https://kit.fontawesome.com/68dda164c0.js"
-        crossorigin="anonymous"
-></script>
+<link rel="stylesheet" href="home.css" />
 <style>
   header{
     /*padding-top: 40px;*/
@@ -52,7 +45,7 @@
   }
   body{
     width: 1920px;
-    height: 1600px;
+    /*height: 1600px;*/
     border: 1px solid;
   }
 
@@ -67,7 +60,7 @@
   section{
     margin-left: 50px;
     width: 1000px;
-    height: 1200px;
+    /*height: 1200px;*/
     border: 1px solid;
     float: left;
     margin-top: 10px;
@@ -137,17 +130,17 @@
 
   .top-bar__menu-box-1 {
     text-align: center;
-    margin-top: 100px;
+    margin-top: 60px;
   }
 
   .top-bar__menu-box-1 ul {
-    background-color: #3c712f;
+    background-color: #3B82F6;
     color: white;
   }
 
   .top-bar__menu-box-1 ul > li > a {
     display: block;
-    font-size: 2rem;
+    font-size: 1.5rem;
     padding: 10px 50px;
   }
 
@@ -169,15 +162,68 @@
   .top-bar__menu-box-1 > ul > li:hover > ul {
     display: block;
   }
+  .top-bar__menu-box-1 > ul > li > ul >li>a {
+    font-size: 0.8rem;
+  }
 
   .top-bar__menu-box-1 > ul {
     border-radius: 20px;
   }
-  section{
-    padding: 10px;
-    /*text-align: center;*/
+
+  .profileImage {
+    border-radius: 50%;
+    height: 150px;
+    width: 150px;
+    overflow: hidden;
+    margin-top: 20px;
+    margin-inline: auto;
+  }
+  .search{
+    margin-top: 30px;
+    border: 1px solid;
+    display: inline-block;
+  }
+  .search-input{
+    width: 600px;
+    height: 80px;
+    border: 1px solid;
+  }
+  #search{
+    margin-top: 50px;
+    margin-left: 800px;
+    /*border: 1px solid;*/
+    display: inline-block;
+    text-align: center;
+
+  }
+  #search-input{
+    width: 400px;
+    height: 40px;
+    border: 2px solid #3B82F6;
+    border-radius: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  #search-input::placeholder{
+    text-align: center;
   }
 
+  #search-button{
+    margin-left: 30px;
+    border: 1px solid;
+    width: 100px;
+    height: 40px;
+    border-radius: 5px;
+    background: #3B82F6;
+    color: white;
+  }
+  #search-header{
+    margin-top: 50px;
+    /*margin-left: 80px;*/
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
   #boardheader{
     display: block;
     margin-top: 80px;
@@ -212,12 +258,12 @@
   table select{
     width:300px;
     height: 30px;
-    border: 1.5px rgb(19, 97, 3) solid;
+    border: 1.5px #3B82F6 solid;
     border-radius: 5px;
 
   }
   input[type="text"] {
-    border: 1.5px rgb(19, 97, 3) solid;
+    border: 1.5px #3B82F6 solid;
     width: 350px;
     height: 30px;
     border-radius: 5px;
@@ -225,7 +271,7 @@
 
   }
   textarea {
-    border: 1.5px rgb(19, 97, 3) solid;
+    border: 1.5px #3B82F6 solid;
     width: 750px;
     height: 400px;
     border-radius: 5px;
@@ -241,10 +287,10 @@
     height: 40px;
     font-size: 15px;
     border: 0;
-    outline: 1.5px rgb(19, 97, 3) solid;
+    outline: 1.5px #3B82F6 solid;
     border-radius: 5px;
     padding-left: 10px;
-    background-color: rgb(60, 113, 47);
+    background-color: #3B82F6;
   }
   input[type="submit"]:active {
     width: 100px;
@@ -252,15 +298,15 @@
     font-size: 15px;
     border: 0;
     border-radius: 5px;
-    outline: 1.5px rgb(60, 113, 47) solid;
+    outline: 1.5px #3B82F6 solid;
     padding-left: 10px;
-    background-color: rgb(19, 97, 3);
+    background-color: #3B82F6;
   }
   input[type="file"]{
     width: 300px;
     border: 0;
     border-radius: 5px;
-    outline: 1.5px rgb(60, 113, 47) solid;
+    outline: 1.5px #3B82F6 solid;
   }
 
 
@@ -268,62 +314,6 @@
 </style>
 <body>
   <div th:replace="include/topinclude"></div>
-<!--<header>-->
-<!--  <div id="logo">-->
-<!--    <a  href="home"><img src="logo_new1.png" width="300px" height="100%"></a>-->
-<!--  </div>-->
-
-<!--  <div id="header">Hospital Reservation</div>-->
-<!--</header>-->
-<!--<div id="login">-->
-<!--  <span><a href="login">로그인<i class="fa-solid fa-right-to-bracket"></i></a>   |</span>-->
-<!--  <span><a href="#">회원가입<i class="fa-solid fa-user-plus"></i></a></span>-->
-<!--</div>-->
-<!--<div class="con">-->
-<!--  <nav class="top-bar__menu-box-1">-->
-<!--    <ul>-->
-<!--      <li>-->
-<!--        <a href="#">병원목록</a>-->
-<!--        <ul>-->
-<!--          <li><a href="#">text1</a></li>-->
-<!--          <li><a href="#">text2</a></li>-->
-<!--          <li><a href="#">text3</a></li>-->
-<!--          <li><a href="#">text4</a></li>-->
-<!--        </ul>-->
-<!--      </li>-->
-<!--      <li>-->
-<!--        <a href="#">예약신청</a>-->
-<!--        <ul>-->
-<!--          <li><a href="#">text1</a></li>-->
-<!--          <li><a href="#">text2</a></li>-->
-<!--          <li><a href="#">text3</a></li>-->
-<!--          <li><a href="#">text4</a></li>-->
-<!--        </ul>-->
-<!--      </li>-->
-<!--      <li>-->
-<!--        <a href="#">예방접종정보</a>-->
-<!--        <ul>-->
-<!--          <li><a href="#">text1</a></li>-->
-<!--          <li><a href="#">text2</a></li>-->
-<!--          <li><a href="#">text3</a></li>-->
-<!--          <li><a href="#">text4</a></li>-->
-<!--        </ul>-->
-<!--      </li>-->
-<!--      <li>-->
-<!--        <a href="#">게시판</a>-->
-<!--        <ul>-->
-<!--          <li><a href="#">text1</a></li>-->
-<!--          <li><a href="#">text2</a></li>-->
-<!--          <li><a href="#">text3</a></li>-->
-<!--          <li><a href="#">text4</a></li>-->
-<!--        </ul>-->
-<!--      </li>-->
-<!--    </ul>-->
-
-<!--  </nav>-->
-
-<!--</div>-->
-
 <aside id="aside1">
 
 </aside>
@@ -337,7 +327,7 @@
 <!--  </div>-->
   <div>
     <form action="submitwrite" method="post" encType="multipart/form-data">
-      <table>
+      <table id="boardTable">
         <tr>
           <td><h2>글쓰기</h2></td>
         </tr>
@@ -360,7 +350,13 @@
         <tr><td class="header">Content</td></tr>
         <tr><td colspan="2"><textarea placeholder="내용을 입력하세요" name="board_content"></textarea></td></tr>
         <tr><td class="header">Add File</td></tr>
-        <tr><td><input type="file" name="board_binary"></td></tr>
+        <tr>
+          <td><input type="file" name="file"></td>
+<!--          <td>-->
+<!--            <input type="button" class="addFile" value="추가" style="width: 80px; height: 30px">-->
+<!--            <input type="button" class="delFile" value="삭제" style="width: 80px;height: 30px">-->
+<!--          </td>-->
+        </tr>
 <!--        <tr>-->
 <!--          <td><input type="hidden" th:value="${boardVO.board_user_id}" name="board_user_id"></td>-->
 <!--          <td><input type="hidden" th:value="${boardVO.board_viewcount}" name="board_viewcount"></td>-->
@@ -373,10 +369,11 @@
 
   </div>
 
-</section>
-<aside id="aside2">
+  </section>
+  <aside id="aside2">
 
-</aside>
+  </aside>
+</body>
 <footer id="ad">
   <h1>광고</h1>
 </footer>

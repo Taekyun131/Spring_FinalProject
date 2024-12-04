@@ -156,6 +156,13 @@ a {
     border-radius: 20px;
 }
 
+.quickMenu {
+    width: 200px;
+    /*height: 500px;*/
+    position: sticky;
+    float: right;
+    /*border: 1px black solid;*/
+}
 .profileImage {
     border-radius: 50%;
     height: 150px;

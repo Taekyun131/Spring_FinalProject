@@ -4,6 +4,7 @@ import com.asklepios.hospitalreservation_asklepios.Service.IF_BoardService;
 import com.asklepios.hospitalreservation_asklepios.Service.LikeService;
 import com.asklepios.hospitalreservation_asklepios.VO.BoardVO;
 //import com.asklepios.hospitalreservation_asklepios.VO.FileDataUtil;
+import com.asklepios.hospitalreservation_asklepios.VO.FileDataUtil;
 import com.asklepios.hospitalreservation_asklepios.VO.LikeVO;
 import com.asklepios.hospitalreservation_asklepios.VO.PageVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,10 @@ import static org.apache.tomcat.util.http.fileupload.FileUtils.*;
 public class HomeController {
   @Autowired
   IF_BoardService boardService;
+  @Autowired
   LikeService likeService;
-  //    FileDataUtil fileDataUtil;
+  @Autowired
+  FileDataUtil fileDataUtil;
   @GetMapping("/home")
   public String main(){
     return "home";
@@ -98,8 +101,11 @@ public class HomeController {
 
   @PostMapping("bboard/submitwrite")
   public String submitWrite(@ModelAttribute BoardVO boardVO,
-                            MultipartFile[]file) throws Exception {
+                            @ModelAttribute MultipartFile[]file) throws Exception {
+
     System.out.println(file.length);
+    String [] newFileName=fileDataUtil.fileUpload(file);
+//    boardVO.setBoard_binary(newFileName);
 //    boardService.addBoard(boardVO);
     return "redirect:/bboard_all";
 

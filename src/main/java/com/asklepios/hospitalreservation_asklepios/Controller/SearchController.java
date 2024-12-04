@@ -2,6 +2,7 @@ package com.asklepios.hospitalreservation_asklepios.Controller;
 
 import com.asklepios.hospitalreservation_asklepios.Service.IF_SearchService;
 import com.asklepios.hospitalreservation_asklepios.VO.HospitalVO;
+import com.asklepios.hospitalreservation_asklepios.VO.Hospital_doctorVO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,7 +23,8 @@ public class SearchController {
     public ModelAndView search(@RequestParam("keyword") String keyword,
                          Model model) {
 //        System.out.println(keyword);
-        List<HospitalVO> hlist =searchService.searchHospital(keyword);
+//        List<HospitalVO> hlist =searchService.searchHospital(keyword);
+        List<Hospital_doctorVO> hlist=searchService.searchInfo(keyword);
 //        System.out.println(hlist.size());
 //        System.out.println(hlist.toString());
         model.addAttribute("hlist", hlist);
@@ -32,21 +34,21 @@ public class SearchController {
 //        return "search/searchmain";
     }
     @PostMapping("/filter")
-    public List<HospitalVO> filterDate(@RequestParam Map<String, Object> hospitalList,
+    public List<Hospital_doctorVO> filterDate(@RequestParam Map<String, Object> hospitalList,
                                        @RequestParam("type")String type) throws JsonProcessingException {
             String data = hospitalList.get("hospitalList").toString();
         ObjectMapper mapper = new ObjectMapper();
-        List<HospitalVO> modHospitalList = mapper.readValue(data, new TypeReference<List<HospitalVO>>() {
+        List<Hospital_doctorVO> modHospitalList = mapper.readValue(data, new TypeReference<List<Hospital_doctorVO>>() {
         });
 //        for(HospitalVO hospitalVO:modHospitalList){
 //            System.out.println(hospitalVO.toString());
 //        }
 
         if(type.equals("date")){
-            List<HospitalVO> filteredDate = searchService.filterDate(modHospitalList);
+            List<Hospital_doctorVO> filteredDate = searchService.filterDate(modHospitalList);
             return filteredDate;
         }else if(type.equals("ing")){
-            List<HospitalVO> filteredDate = searchService.filterIng(modHospitalList);
+            List<Hospital_doctorVO> filteredDate = searchService.filterIng(modHospitalList);
         }
         return modHospitalList;
     }

@@ -2,11 +2,11 @@ package com.asklepios.hospitalreservation_asklepios.Service;
 
 import com.asklepios.hospitalreservation_asklepios.Repository.IF_SearchMapper;
 import com.asklepios.hospitalreservation_asklepios.VO.HospitalVO;
+import com.asklepios.hospitalreservation_asklepios.VO.Hospital_doctorVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 @Service
 public class IM_SearchService implements IF_SearchService{
@@ -18,16 +18,22 @@ public class IM_SearchService implements IF_SearchService{
     }
 
     @Override
-    public List<HospitalVO> filterDate(List<HospitalVO> hospitalList) {
-        List<HospitalVO> modHospitalList = hospitalList;
+    public List<Hospital_doctorVO> searchInfo(String name) {
+        return searchMapper.selectInfo(name);
+    }
+
+
+    @Override
+    public List<Hospital_doctorVO> filterDate(List<Hospital_doctorVO> hospitalList) {
+        List<Hospital_doctorVO> modHospitalList = hospitalList;
         modHospitalList.removeIf(hospitalVO -> hospitalVO.getHospital_date().equals("n"));
 //        System.out.println(modHospitalList.size());
         return modHospitalList;
     }
 
     @Override
-    public List<HospitalVO> filterIng(List<HospitalVO> hospitalList) {
-        List<HospitalVO> modHospitalList=hospitalList;
+    public List<Hospital_doctorVO> filterIng(List<Hospital_doctorVO> hospitalList) {
+        List<Hospital_doctorVO> modHospitalList=hospitalList;
         LocalTime localTime=LocalTime.now();
         int nowHour= localTime.getHour();
         int nowMinute=localTime.getMinute();

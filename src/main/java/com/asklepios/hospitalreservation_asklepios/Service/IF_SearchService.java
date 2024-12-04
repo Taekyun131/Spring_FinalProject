@@ -1,12 +1,13 @@
 package com.asklepios.hospitalreservation_asklepios.Service;
 
 import com.asklepios.hospitalreservation_asklepios.VO.HospitalVO;
-import org.springframework.stereotype.Service;
+import com.asklepios.hospitalreservation_asklepios.VO.Hospital_doctorVO;
 
 import java.util.List;
 
 public interface IF_SearchService {
     public List<HospitalVO> searchHospital(String name);
-    public List<HospitalVO> filterDate(List<HospitalVO> modHospitalList);
-    public List<HospitalVO> filterIng(List<HospitalVO> modHospitalList);
+    public List<Hospital_doctorVO> searchInfo(String name);
+    public List<Hospital_doctorVO> filterDate(List<Hospital_doctorVO> modHospitalList);
+    public List<Hospital_doctorVO> filterIng(List<Hospital_doctorVO> modHospitalList);
 }

@@ -1,9 +1,10 @@
 package com.asklepios.hospitalreservation_asklepios.VO;
 
-import jakarta.annotation.Resource;
+
 import jakarta.servlet.http.HttpServletResponse;
 
 
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
@@ -20,17 +21,18 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 
+@Data
 @Controller
 public class FileDataUtil {
     private ArrayList<String>extNameArray=new ArrayList<>();
     private String uploadPath;
-  @Value("$uploadPath")
+
+  @Value("${uploadPath}")
   public void setUploadPath(String uploadPath) {
     this.uploadPath = uploadPath;
   }
-  public String getUploadPath() {
-      return uploadPath;
-    }
+
+
   @RequestMapping(value="/download",method= RequestMethod.GET)
     @ResponseBody
     public FileSystemResource fileDownload(@RequestParam("filename")String fileName, HttpServletResponse response){
@@ -43,9 +45,9 @@ public class FileDataUtil {
       String [] files = new String[file.length];
       for(int i=0;i<file.length;i++){
         if(!Objects.equals(file[i].getOriginalFilename(), "")){
-          String origianlName=file[i].getOriginalFilename();
+          String originalName=file[i].getOriginalFilename();
           UUID uid= UUID.randomUUID();
-          String saveName=uid.toString()+"."+origianlName.split("\\.")[1];
+          String saveName=uid.toString()+"."+originalName.split("\\.")[1];
           files=new String []{saveName};
           byte[]fileData=file[i].getBytes();
           File target=new File(uploadPath,saveName);

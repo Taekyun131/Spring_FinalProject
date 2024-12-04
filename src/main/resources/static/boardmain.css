@@ -185,15 +185,15 @@ section{
 
 #boardtable{
     margin: auto;
-    width: 700px;
+    width: 800px;
     border-radius: 5px;
     border-collapse: collapse;
     border-top: none;
 }
 #boardtable td, .table th{
     border-bottom: 1px lightgray solid;
-    height: 30px;
-    font-size: 14px;
+    height: 40px;
+    font-size: 20px;
 }
 #boardtable thead{
     background-color: rgb(218, 231, 255);
@@ -210,7 +210,7 @@ section{
     outline: 1.5px rgb(68, 136, 244) solid;
     border-radius: 5px;
     padding-left: 10px;
-
+    margin-top: 20px;
     background-color: rgb(164, 199, 255);
 }
 #boardtable input:active {

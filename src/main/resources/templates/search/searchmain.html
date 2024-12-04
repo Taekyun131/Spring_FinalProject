@@ -9,12 +9,10 @@
             src="https://kit.fontawesome.com/68dda164c0.js"
             crossorigin="anonymous"
     ></script>
-    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 <link rel="stylesheet" href="home.css" />
 <style>
-
     #search-header{
         margin-top: 50px;
         /*margin-left: 80px;*/
@@ -31,11 +29,12 @@
     }
     tr{
         height: 60px;
-        border-bottom: 1px lightgray solid;
         /*box-sizing: border-box;*/
         margin: 0;
     }
     td{
+      border-top: 1px lightgray solid;
+      /*border-bottom: 1px lightgray solid;*/
         height: 60px;
     }
     thead{
@@ -74,6 +73,9 @@
         font-size: 20px;
         margin-right: 15px;
     }
+    #hospitals{
+      margin-top: 15px;
+    }
     .info{
         font-size: 20px;
         color: #555555;
@@ -81,14 +83,14 @@
     #modal{
       position: sticky;
       top: 0;
-        margin-left:150px;
-        margin-top: 50px;
+      margin-left:150px;
+      margin-top: 50px;
 
-        width: 600px;
-        height: 800px;
-        /*border: 1px solid;*/
-        border-radius: 30px;
-        display:none;
+      width: 600px;
+      height: 800px;
+      /*border: 1px solid;*/
+      border-radius: 30px;
+      display:none;
     }
     #modalheader{
         margin: 0 0 30px;
@@ -137,14 +139,14 @@
       margin-left: 200px;
       width: 650px;
       height: 700px;
-      border: 1px solid;
+      /*border: 1px solid;*/
       overflow: auto;
       border-radius:30px ;
 
     }
     #infoHeader{
       margin: 0;
-      border: 1px solid;
+      /*border: 1px solid;*/
       width: 100%;
       height: 70px;
       text-align: center;
@@ -154,7 +156,7 @@
     }
   #infoIntro,#infoNotice{
     width: 500px;
-    font-size: 15px;
+    font-size: 20px;
     text-align: left;
     margin-left: 50px;
   }
@@ -163,10 +165,16 @@
     margin-top: 20px;
     margin-left: 50px;
     text-align: left;
-    font-size: 15px;
+    font-size: 20px;
     color: #666666;
     /*border: 1px solid;*/
   }
+   #doctorTable{
+     margin-left: 50px;
+     width: 500px;
+     /*border: 1px solid;*/
+     font-size: 20px;
+    }
 </style>
 <body>
 <div style="position: fixed" th:replace="include/topinclude"></div>
@@ -201,7 +209,7 @@
     </div>
 
    <div>
-      <table>
+      <table id="hospitals">
           <tbody id="tbody">
           <tr th:each="hospitalVO:${hlist}" class="row">
               <td>
@@ -211,7 +219,7 @@
                           <span class="info">진료시간: </span>
                           <span class="info" th:text="${hospitalVO.hospital_time}"> </span>
                           <span>|</span>
-                          <span class="info" th:text="내과"></span>
+                          <span class="info" th:text="${hospitalVO.user_dotor_medical}"></span>
                       </div>
                       <div class="info" th:text="${hospitalVO.hospital_addr}"></div>
                       <div class="info" th:text="${hospitalVO.hospital_tel}"></div>
@@ -219,6 +227,7 @@
               </td>
 
           </tr>
+
           </tbody>
 
 <!--            <tr>-->
@@ -297,6 +306,7 @@
               </div>
             </td>
           </tr>
+
           </tbody>
         </table>
         <div>
@@ -304,6 +314,24 @@
           <div id="infoIntro"></div>
           <div class="infoTitle">공지사항</div>
           <div id="infoNotice"></div>
+          <div class="infoTitle">의사정보</div>
+          <table id="doctorTable">
+            <tr>
+              <td>이름</td>
+              <td id="clickhospitaldoctorname"></td>
+            </tr>
+            <tr>
+              <td>진료과목</td>
+              <td id="clickhospitaldoctorsubject"></td>
+            </tr>
+            <tr>
+              <td>약력</td>
+              <td id="clickhospitaldoctorcareer"></td>
+            </tr>
+            <tr>
+              <td><input id="reservation" type="button" style="width: 100px;height: 60px; font-size: 20px; background: #84b6ff; border-radius: 5px"  value="예약하기"></td>
+            </tr>
+          </table>
         </div>
       </div>
     </div>
@@ -328,12 +356,13 @@
     let tbody=document.getElementById("tbody");
     //렌더링 시 받은 병원리스트
     let hospitalList=[];
-    let Mod_hospitalList=[];
+
     [# th:each='hospitalVO, stat:${hlist}']
     let hospital[[${stat.count}]]=[[${hospitalVO}]];
     hospitalList.push(hospital[[${stat.count}]]);
     [/]
-        Mod_hospitalList=hospitalList;
+        console.log(hospitalList);
+        // Mod_hospitalList=hospitalList;
     // for(let i=0;i<hospitalList.length;i++){
     //     console.log(JSON.stringify(hospitalList[i]));
     // }
@@ -369,14 +398,14 @@
                     for(let i=0;i<data.length;i++){
                         // resultrow[i].innerHTML="";
                         // console.log(data[i].hospital_name);
-                        tbody.innerHTML+="<tr><td><div class=resultrow></div></td></tr>";
+                        tbody.innerHTML+="<tr class='row'><td><div class=resultrow></div></td></tr>";
                         resultrow[i].innerHTML=
                         `<div class="rheader" >${data[i].hospital_name}</div>
                             <div class="time">
                                 <span class="info">진료시간: ${data[i].hospital_time}</span>
                                 <span class="info" > </span>
                                 <span>|</span>
-                                <span class="info" >내과</span>
+                                <span class="info" >${data[i].user_dotor_medical}</span>
                             </div>
                             <div class="info" >${data[i].hospital_addr}</div>
                             <div class="info" >${data[i].hospital_tel}</div>`
@@ -391,14 +420,14 @@
             dayButton.innerText = "평일";
             // tbody.innerHTML="";
             for(let i=0;i<hospitalList.length;i++){
-                tbody.innerHTML+="<tr class=row><td><div class=resultrow ></div></td></tr>";
+                tbody.innerHTML+="<tr class='row'><td><div class='resultrow' ></div></td></tr>";
                 resultrow[i].innerHTML=
                     `<div class="rheader" >${hospitalList[i].hospital_name}</div>
                     <div class="time">
                         <span class="info">진료시간: ${hospitalList[i].hospital_time}</span>
                         <span class="info" > </span>
                         <span>|</span>
-                        <span class="info" >내과</span>
+                        <span class="info" >${hospitalList[i].user_dotor_medical}</span>
                     </div>
                     <div class="info" >${hospitalList[i].hospital_addr}</div>
                     <div class="info" >${hospitalList[i].hospital_tel}</div>`;
@@ -424,13 +453,36 @@
         });
     }
     //진료과목 선택
+    let rows=document.getElementsByClassName("row");
+    let rheaders=document.getElementsByClassName("rheader");
     function selectSubject(selSub){
         let modal=document.getElementById("modal");
         let body=document.querySelector("body");
+        let mod_hospitalList=[];
         body.style.background="white";
         modal.style.display="none";
         if(selSub!=null){
-            alert(selSub);
+          alert(selSub);
+          tbody.innerHTML="";
+          hospitalList.forEach(hospital=>{
+            if(hospital.user_dotor_medical===selSub){
+              mod_hospitalList.push(hospital);
+            }
+          });
+          for(let i=0;i<mod_hospitalList.length;i++){
+            tbody.innerHTML+="<tr class='row'><td><div class='resultrow'></div></td></tr>";
+            resultrow[i].innerHTML=
+                `<div class="rheader" >${mod_hospitalList[i].hospital_name}</div>
+                  <div class="time">
+                      <span class="info">진료시간: ${mod_hospitalList[i].hospital_time}</span>
+                      <span class="info" > </span>
+                      <span>|</span>
+                      <span class="info" >${mod_hospitalList[i].user_dotor_medical}</span>
+                  </div>
+                  <div class="info" >${mod_hospitalList[i].hospital_addr}</div>
+                  <div class="info" >${mod_hospitalList[i].hospital_tel}</div>`
+          }
+          addEvent();
         }
     }
     //닫기버튼
@@ -452,14 +504,14 @@
                 success: function (data) {
                     // alert("성공");
                     for(let i=0;i<data.length;i++){
-                        tbody.innerHTML+="<tr><td><div class=resultrow></div></td></tr>";
+                        tbody.innerHTML+="<tr class='row'><td><div class='resultrow'></div></td></tr>";
                         resultrow[i].innerHTML=
                             `<div class="rheader" >${data[i].hospital_name}</div>
                             <div class="time">
                                 <span class="info">진료시간: ${data[i].hospital_time}</span>
                                 <span class="info" > </span>
                                 <span>|</span>
-                                <span class="info" >내과</span>
+                                <span class="info" >${data[i].user_dotor_medical}</span>
                             </div>
                             <div class="info" >${data[i].hospital_addr}</div>
                             <div class="info" >${data[i].hospital_tel}</div>`
@@ -474,14 +526,14 @@
         }else{
             ing.style.background="white";
             for(let i=0;i<hospitalList.length;i++){
-                tbody.innerHTML+="<tr><td><div class=resultrow></div></td></tr>";
+                tbody.innerHTML+="<tr class='row'><td><div class=resultrow></div></td></tr>";
                 resultrow[i].innerHTML=
                     `<div class="rheader" >${hospitalList[i].hospital_name}</div>
                     <div class="time">
                         <span class="info">진료시간: ${hospitalList[i].hospital_time}</span>
                         <span class="info" > </span>
                         <span>|</span>
-                        <span class="info" >내과</span>
+                        <span class="info" >${hospitalList[i].user_dotor_medical}</span>
                     </div>
                     <div class="info" >${hospitalList[i].hospital_addr}</div>
                     <div class="info" >${hospitalList[i].hospital_tel}</div>`;
@@ -509,19 +561,26 @@
       document.body.style.backgroundColor="white";
     })
     //병원이름 클릭시 병원정보모달
+    let hospitalInfo;
     function showInfo(title){
       let clickHospital=findHospital(title);
+      hospitalInfo=clickHospital;
       if(clickHospital == null){
         alert(title+"을/를 찾지못했습니다")
       }else{
-        console.log(clickHospital);
+        // console.log(clickHospital);
         document.getElementById("clickhospitalname").innerText=clickHospital.hospital_name;
         document.getElementById("clickhospitaltime").innerText=clickHospital.hospital_time;
-        document.getElementById("clickhospitalsubject").innerText="내과";
+        document.getElementById("clickhospitalsubject").innerText=clickHospital.user_dotor_medical;
         document.getElementById("clickhospitaladdr").innerText=clickHospital.hospital_addr;
         document.getElementById("clickhospitaltel").innerText=clickHospital.hospital_tel;
         document.getElementById("infoIntro").innerText=clickHospital.hospital_intro;
         document.getElementById("infoNotice").innerText=clickHospital.hospital_notice;
+        document.getElementById("clickhospitaldoctorname").innerText=clickHospital.user_name;
+        document.getElementById("clickhospitaldoctorsubject").innerText=clickHospital.user_dotor_medical;
+        document.getElementById("clickhospitaldoctorcareer").innerHTML=clickHospital.user_dotor_career+`<br>`+
+                                                                        clickHospital.user_dotor_graduate;
+
       }
       document.body.style.backgroundColor="gray";
       modalInfo.style.backgroundColor="white";
@@ -541,7 +600,22 @@
      })
       return hospitalVO;
     }
+  let reservation=document.getElementById("reservation");
 
+    reservation.addEventListener("click",()=> {
+      fetch("reserve", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          "hospital_name": hospitalInfo.hospital_name,
+          "doctor_name": hospitalInfo.user_name,
+          "user_name": "test",
+        }),
+      })
+          .then((response) => console.log(response));
+    })
 </script>
 
 
